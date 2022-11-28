@@ -21,8 +21,12 @@ def get_trash(img):
     img = pre(Image.open('./Images/' + img))
     p = model.predict(img)
     confidences = max(np.squeeze(model.predict(img)))
-    conf = round(confidences, 3)
+    conf = round(confidences * 100, 1) 
     predicted_class = le.classes_[np.argmax(p[0], axis=-1)]
     print(predicted_class)
 
-    return predicted_class
+    return conf, predicted_class
+'''
+if __name__=='__main__':
+    get_trash()
+'''
