@@ -22,12 +22,6 @@ def pre(img_path):
 
 cap = cv2.VideoCapture(0)
 
-# Using IP camera
-'''
-address = 'https://192.168.0.122:8080/video' 
-cap.open(address)
-'''
-
 success, img = cap.read()
 
 font = cv2.FONT_HERSHEY_SIMPLEX
