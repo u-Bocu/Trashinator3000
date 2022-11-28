@@ -2,6 +2,7 @@ from flask import render_template, request
 import os
 
 import connexion
+from model import *
 
 app = connexion.App(__name__, specification_dir="./")
 app.add_api("../openapi/swagger.yml")
@@ -11,8 +12,7 @@ def result():
     if request.method == 'POST':
         f = request.files['image']
         f.save(os.path.join('./Images', f.filename))
-
-        #Call function
+        #get_trash(f.filename)
     return render_template("home.html")
         
 
