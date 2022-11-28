@@ -4,7 +4,6 @@ from keras.applications import imagenet_utils
 from keras.utils import img_to_array
 from sklearn.preprocessing import LabelEncoder
 import numpy as np
-import time
 
 # Load model
 model = load_model('model_5class_resnet_87%.h5')
