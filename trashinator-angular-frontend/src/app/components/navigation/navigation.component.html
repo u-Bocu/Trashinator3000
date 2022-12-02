@@ -17,14 +17,13 @@
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+        (click)="drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>trashinator-angular-frontend</span>
+      <span>Trashinator</span>
     </mat-toolbar>
 
-    <!-- All pages with routing -->
+    <!-- Différentes pages avec le routing -->
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
