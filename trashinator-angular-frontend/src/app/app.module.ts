@@ -22,6 +22,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxEchartsModule } from "ngx-echarts";
+import { NbScansChartComponent } from './components/charts/nb-scans-chart/nb-scans-chart.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     PeopleComponent,
     DashboardComponent,
     NavigationComponent,
-    WasteFormComponent
+    WasteFormComponent,
+    NbScansChartComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatSelectModule,
     MatRadioModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
