@@ -1,2 +1,4 @@
 *.h5
 *.idea
+*.DS_Store
+*.__pycache__
