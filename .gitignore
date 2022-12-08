@@ -1,2 +1,8 @@
 *.h5
+<<<<<<< HEAD
 *.idea
+=======
+*.idea
+*.DS_Store
+*.__pycache__
+>>>>>>> 277802da37ae55f17c473ed2697bc9186df5212f
