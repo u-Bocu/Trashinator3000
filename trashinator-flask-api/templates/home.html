@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flash REST API</title>
+</head>
+<body>
+Template working
+<!-- Form récupération images -->
+<form action="{{ url_for('result') }}" method="post" enctype="multipart/form-data">
+    <h2>Select your image:</h2>
+    <input type="file" accept="image/*" name="image">
+    <input class="btn btn-outline-primary" type="submit" value="Submit">
+</form>
+<h2 style = "color : red"> {{data}} ---- {{conf}} </h2>
+</body>
+</html>
