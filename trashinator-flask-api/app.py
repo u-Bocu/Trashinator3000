@@ -1,39 +1,56 @@
 #https://flask.palletsprojects.com/en/2.2.x/patterns/fileuploads/
 
-from flask import render_template, request
+from flask import Flask, render_template, request
+from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from model import get_trash
 import os
-
+import json
 import connexion
 
-
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+app = Flask(__name__)
+CORS(app)
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-app = connexion.App(__name__, specification_dir="./")
-app.add_api("../openapi/swagger.yml")
-
 @app.route("/", methods=['POST'])
+# On a POST request, returns a JSON Object of the prediction if the image is valid.
 def result():
-    Message = "Impossible de lire ce type de fichier"
+
+    res = {
+        "success" : False,
+        "message" : "Impossible de lire ce fichier",
+        "data" : {
+            "output" : None,
+            "confidence" : None,
+        },
+    }
+
     if request.method == 'POST':
-        f = request.files['image']
-        if f.filename == '':
-            return render_template("home.html", data=Message)
-        if f and allowed_file(f.filename):
-            filename = secure_filename(f.filename) #So what does that secure_filename() function actually do? Now the problem is that there is that principle called “never trust user input”. This is also true for the filename of an uploaded file. All submitted form data can be forged, and filenames can be dangerous. For the moment just remember: always use that function to secure a filename before storing it directly on the filesystem.
-            f.save(os.path.join('demo_flask\\Images', filename))
+        file = request.files['image']
+
+        if file.filename != '' \
+            and file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join('demo_flask\\Images', filename))
+
             conf, data = get_trash(filename)
-            return render_template("home.html", data=data, conf=conf)
-        else:
-            
-            return render_template("home.html", data=Message)
-             
-            
+
+            res = {
+                "success" : True,
+                "message" : "",
+                "data" : {
+                    "output" : data,
+                    "confidence" : conf,
+                },
+            }
+
+    j_res = json.dumps(res)
+    return j_res 
             
 
 @app.route("/")
