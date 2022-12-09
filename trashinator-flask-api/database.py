@@ -20,3 +20,39 @@ def close_connection(exception):
 
     if db is not None:
         db.close()
+
+# Tries to add a user to DB and returns 0 if succeeded, 1 otherwise.
+def add_user_to_db(username, password):
+    err = True
+
+    try:
+        db = get_db()
+        cursor = db.cursor()
+
+        sql_request = ''' INSERT INTO user (username, password) 
+                    VALUES (''' + username + ''', ''' + password + ''');'''
+
+        cursor.execute(sql_request)
+    except:
+        err = False
+
+    return err
+
+# Tries to add a scan to DB and returns 0 if succeeded, 1 otherwise.
+def add_scan_to_db(user_id, filename, confidence, prediction):
+    err = True
+
+    confidence = int(confidence * 100)
+
+    try:
+        db = get_db()
+        cursor = db.cursor()
+
+        sql_request = ''' INSERT INTO scan (user_id, filename, confidence, prediction) 
+                    VALUES (''' + str(user_id) + ''', ''' + filename + ''', ''' + str(confidence) + ''', ''' + prediction + ''');'''
+
+        cursor.execute(sql_request)
+    except:
+        err = False
+
+    return err

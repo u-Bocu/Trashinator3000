@@ -24,16 +24,16 @@ CREATE TABLE IF NOT EXISTS scan (
 
 -- Add some dummy users
 INSERT INTO user (username, password)
-VALUES ("jojo", "azerty"),
+VALUES ("dfh", "azerty"),
         ("jujututu", "tutupigeon"),
         ("matt_le_boss", "uydfgre"),
         ("issa_de_qista", "kjhgf");
 
 -- Add some dummy scan
 INSERT INTO scan (user_id, filename, confidence, prediction)
-VALUES (1, "toto.png", 80, "glass"),
-        (1, "tutu.png", 92, "glass"),
+VALUES (1, "toto.png", 80, "organic"),
+        (NULL, "tutu.png", 92, "paper"),
         (2, "pigeon.png", 72, "plastic"),
-        (3, "example.png", 84, "glass"),
-        (4, "azert.png", 75, "plastic"),
+        (3, "example.png", 84, "paper"),
+        (4, "azert.png", 75, "organic"),
         (4, "jhgf.png", 78, "plastic");

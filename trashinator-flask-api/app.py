@@ -7,6 +7,8 @@ from model import get_trash
 import os
 import json
 
+from database import *
+
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
@@ -16,16 +18,37 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route("/", methods=['POST'])
+# On a POST request, adds the user to database.
+@app.route("/login", methods=['POST'])
+def login():
+    j_userdata = request.get_json()
+    userdata = json.load(j_userdata)
+
+    err = add_user_to_db(userdata.username, userdata.password)
+    message = "Impossible de login cet utilisateur"
+
+    if err:
+        message = "Login ajouté avec succès"
+
+    res = {
+        "success" : err,
+        "message" : message,
+        "data" : None
+    }
+
 # On a POST request, returns a JSON Object of the prediction if the image is valid.
+@app.route("/", methods=['POST'])
 def result():
+    j_userdata = request.get_json()
+    userdata = json.load(j_userdata)
+    user_id = userdata.id
 
     res = {
         "success" : False,
         "message" : "Impossible de lire ce fichier",
         "data" : {
-            "output" : None,
             "confidence" : None,
+            "output" : None,
         },
     }
 
@@ -37,14 +60,15 @@ def result():
             filename = secure_filename(file.filename)
             file.save(os.path.join('demo_flask\\Images', filename))
 
-            conf, data = get_trash(filename)
+            confidence, prediction = get_trash(filename)
+            add_scan_to_db(user_id, filename, confidence, prediction)
 
             res = {
                 "success" : True,
                 "message" : "",
                 "data" : {
-                    "output" : data,
-                    "confidence" : conf,
+                    "confidence" : confidence,
+                    "output" : prediction,
                 },
             }
 
