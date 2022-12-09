@@ -6,7 +6,6 @@ from werkzeug.utils import secure_filename
 from model import get_trash
 import os
 import json
-import connexion
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
