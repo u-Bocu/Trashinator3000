@@ -18,7 +18,23 @@ export class NbScansChartComponent implements OnInit {
     this.chartOptions = {
       title: {
         text: 'Scans de la semaine',
-        subtext: ''
+        subtext: '',
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          crossStyle: {
+            color: '#999'
+          }
+        }
+      },
+      toolbox: {
+        feature: {
+          dataView: { show: true, readOnly: true },
+          magicType: { show: true, type: ['line', 'bar'] },
+          saveAsImage: { show: true }
+        }
       },
       grid: {
         left: '3%',
@@ -26,20 +42,30 @@ export class NbScansChartComponent implements OnInit {
         bottom: '3%',
         containLabel: true
       },
+      legend: {
+        data: ['Scans généraux', 'Vos Scans']
+      },
       xAxis: {
         type: 'category',
         data: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']
       },
       yAxis: {
-        type: 'value'
+        type: 'value',
+        name: 'Scans'
       },
       series: [
         {
           data: data,
           type: 'bar',
+          name: 'Scans généraux',
           showBackground: true,
           backgroundStyle: {
             color: 'rgba(180, 180, 180, 0.2)'
+          },
+          tooltip: {
+            valueFormatter: function (value) {
+              return value + ' Scans';
+            }
           }
         }
       ]
