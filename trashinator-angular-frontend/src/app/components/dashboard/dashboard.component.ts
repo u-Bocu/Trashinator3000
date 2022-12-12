@@ -9,7 +9,7 @@ import { Observable } from "rxjs";
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  nbColonnes?: number = 4;
+  nbColonnes?: number = 5;
   cards?: Observable<Array<any>>;
 
   constructor(private breakpointObserver: BreakpointObserver) {}
@@ -22,22 +22,24 @@ export class DashboardComponent implements OnInit {
           // Taille sur colonne
           this.nbColonnes = 1;
           return [
-            { title: 'Card 1', cols: 1, rows: 1 },
-            { title: 'Card 2', cols: 1, rows: 1 },
-            { title: 'Card 3', cols: 1, rows: 1 },
-            { title: 'Card 4', cols: 1, rows: 1 },
+            { title: 'Organique', cols: 1, rows: 1 },
+            { title: 'Paper', cols: 1, rows: 1 },
+            { title: 'Plastique', cols: 1, rows: 1 },
+            { title: 'Verre/Métal', cols: 1, rows: 1 },
+            { title: 'Autres', cols: 1, rows: 1 },
             { title: '', cols: 1, rows: 2, content: 'nbScansChartComponent' }
           ];
         }
 
         // Taille standard
-        this.nbColonnes = 4;
+        this.nbColonnes = 5;
         return [
-          { title: 'Card 1', cols: 1, rows: 1 },
-          { title: 'Card 2', cols: 1, rows: 1 },
-          { title: 'Card 3', cols: 1, rows: 1 },
-          { title: 'Card 4', cols: 1, rows: 1 },
-          { title: '',cols: 4, rows: 2, content: 'nbScansChartComponent' }
+          { title: 'Organique', cols: 1, rows: 1 },
+          { title: 'Paper', cols: 1, rows: 1 },
+          { title: 'Plastique', cols: 1, rows: 1 },
+          { title: 'Verre/Métal', cols: 1, rows: 1 },
+          { title: 'Autres', cols: 1, rows: 1 },
+          { title: '', cols: 5, rows: 2, content: 'nbScansChartComponent' }
         ];
       })
     );
