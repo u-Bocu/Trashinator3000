@@ -1,7 +1,7 @@
 import os
 from flask import Blueprint, json, request
 from werkzeug.utils import secure_filename
-from database import add_scan_to_db
+from database import add_scan_to_db, get_db
 from model import get_trash
 
 scans = Blueprint('scans', __name__)
@@ -52,3 +52,34 @@ def result():
 
     j_res = json.dumps(res)
     return j_res
+
+
+# Get all scans with filters
+@scans.route("/", methods=['GET'])
+def get_scans():
+    success = True
+    message = "Scans récupérés avec succès"
+    count = 0
+    rows = []
+
+    try:
+        db = get_db()
+        cursor = db.cursor()
+
+        sql_request = '''SELECT * FROM scan;'''
+
+        cursor.execute(sql_request)
+        rows = cursor.fetchall()
+        count = len(rows)
+    except:
+        success = False
+        message = "Erreur lors de la récupération des scans"
+
+    return {
+        "success": success,
+        "message": message,
+        "data": {
+            'count': count,
+            'rows': rows
+        }
+    }
