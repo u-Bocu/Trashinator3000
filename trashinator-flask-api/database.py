@@ -1,8 +1,8 @@
 import sqlite3
 from flask import g
-from app import *
 
 DATABASE = '/sqlite/database.db'
+
 
 # Creates a connection to the DB is it does not already exist and returns it.
 def get_db():
@@ -10,16 +10,9 @@ def get_db():
 
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
-    
+
     return db
 
-# Closes the connection to DB if not already done.
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-
-    if db is not None:
-        db.close()
 
 # Tries to add a user to DB and returns 0 if succeeded, 1 otherwise.
 def add_user_to_db(username, password):
@@ -38,6 +31,7 @@ def add_user_to_db(username, password):
 
     return err
 
+
 # Tries to add a scan to DB and returns 0 if succeeded, 1 otherwise.
 def add_scan_to_db(user_id, filename, confidence, prediction):
     err = True
@@ -49,7 +43,8 @@ def add_scan_to_db(user_id, filename, confidence, prediction):
         cursor = db.cursor()
 
         sql_request = ''' INSERT INTO scan (user_id, filename, confidence, prediction) 
-                    VALUES (''' + str(user_id) + ''', ''' + filename + ''', ''' + str(confidence) + ''', ''' + prediction + ''');'''
+                    VALUES (''' + str(user_id) + ''', ''' + filename + ''', ''' + str(
+            confidence) + ''', ''' + prediction + ''');'''
 
         cursor.execute(sql_request)
     except:
