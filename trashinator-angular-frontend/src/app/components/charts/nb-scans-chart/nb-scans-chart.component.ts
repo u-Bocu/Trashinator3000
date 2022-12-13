@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EChartsOption } from "echarts";
-import { NbScansChartService } from "../../../services/nb-scans-chart.service";
+import { ScansService } from "../../../services/scans.service";
 
 @Component({
   selector: 'app-nb-scans-chart',
@@ -10,10 +10,10 @@ import { NbScansChartService } from "../../../services/nb-scans-chart.service";
 export class NbScansChartComponent implements OnInit {
   chartOptions: EChartsOption|null = null;
 
-  constructor(private nbScansChartService: NbScansChartService) {}
+  constructor(private scansService: ScansService) {}
 
   ngOnInit() {
-    const data = this.nbScansChartService.getData();
+    const data = this.scansService.getNbScansByDay();
 
     this.chartOptions = {
       title: {

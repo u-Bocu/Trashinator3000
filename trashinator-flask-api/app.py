@@ -6,8 +6,8 @@ from routes.auth import auth
 from routes.scans import scans
 
 app = Flask(__name__)
-app.register_blueprint(scans, url_prefix='/scans')
-app.register_blueprint(auth, url_prefix='/auth')
+app.register_blueprint(scans, url_prefix='/api/scans')
+app.register_blueprint(auth, url_prefix='/api/auth')
 CORS(app)
 
 

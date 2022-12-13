@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from "rxjs";
 import { Card } from "../../models/card.model";
+import { ScansService } from "../../services/scans.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -12,8 +13,16 @@ import { Card } from "../../models/card.model";
 export class DashboardComponent implements OnInit {
   nbColonnes?: number = 5;
   cards?: Observable<Array<Card>>;
+  organic: number = 0;
+  paper: number = 0;
+  plastic: number = 0;
+  glassMetal: number = 0;
+  other: number = 0;
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private scansService: ScansService
+  ) {}
 
   ngOnInit() {
     /* Si l'écran est petit, passes les 'cards' de la taille standard vers une colonne */
@@ -44,5 +53,22 @@ export class DashboardComponent implements OnInit {
         ];
       })
     );
+
+    this.scansService.getNbScansByPrediction().subscribe(response => {
+      response.data.rows.forEach((prediction: any[]) => {
+        switch (prediction[0]) {
+          case 'organic':
+            this.organic = prediction[1]; break;
+          case 'paper':
+            this.paper = prediction[1]; break;
+          case 'plastic':
+            this.plastic = prediction[1]; break;
+          case 'g&m':
+            this.glassMetal = prediction[1]; break;
+          case 'other':
+            this.other = prediction[1]; break;
+        }
+      });
+    });
   }
 }
