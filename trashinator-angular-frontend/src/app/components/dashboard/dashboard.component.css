@@ -14,8 +14,12 @@
   text-align: center;
 }
 
-mat-card-title {
+mat-card {
   color: white;
+}
+
+.card-content-stats {
+  transform: scale(2);
 }
 
 /* Dégradés de couleur */

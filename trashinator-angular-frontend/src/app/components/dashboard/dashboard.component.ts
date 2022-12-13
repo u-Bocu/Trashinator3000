@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
           this.nbColonnes = 1;
           return [
             { title: 'Organique', cols: 1, rows: 1 },
-            { title: 'Paper', cols: 1, rows: 1 },
+            { title: 'Papier', cols: 1, rows: 1 },
             { title: 'Plastique', cols: 1, rows: 1 },
             { title: 'Verre/Métal', cols: 1, rows: 1 },
             { title: 'Autres', cols: 1, rows: 1 },
@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
         this.nbColonnes = 5;
         return [
           { title: 'Organique', cols: 1, rows: 1 },
-          { title: 'Paper', cols: 1, rows: 1 },
+          { title: 'Papier', cols: 1, rows: 1 },
           { title: 'Plastique', cols: 1, rows: 1 },
           { title: 'Verre/Métal', cols: 1, rows: 1 },
           { title: 'Autres', cols: 1, rows: 1 },
