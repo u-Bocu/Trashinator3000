@@ -1,7 +1,7 @@
 import sqlite3
 from flask import g
 
-DATABASE = '/sqlite/database.db'
+DATABASE = './sqlite/db/database.db'
 
 
 # Creates a connection to the DB is it does not already exist and returns it.
