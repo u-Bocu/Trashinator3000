@@ -36,4 +36,8 @@ VALUES (1, "toto.png", 80, "organic"),
         (2, "pigeon.png", 72, "plastic"),
         (3, "example.png", 84, "paper"),
         (4, "azert.png", 75, "organic"),
-        (4, "jhgf.png", 78, "plastic");
+        (1, "jhgf.png", 78, "other"),
+        (4, "pomme.png", 78, "organic"),
+        (NULL, "scrap_metal.png", 78, "g&m"),
+        (NULL, "jhgf.png", 78, "other"),
+        (4, "jhgf.png", 78, "other");
