@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { Observable } from "rxjs";
+import { Card } from "../../models/card.model";
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +11,7 @@ import { Observable } from "rxjs";
 })
 export class DashboardComponent implements OnInit {
   nbColonnes?: number = 5;
-  cards?: Observable<Array<any>>;
+  cards?: Observable<Array<Card>>;
 
   constructor(private breakpointObserver: BreakpointObserver) {}
 
