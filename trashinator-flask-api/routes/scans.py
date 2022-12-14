@@ -54,8 +54,8 @@ def result():
     return j_res
 
 
-# Get all scans with filters
-@scans.route("/", methods=['GET'])
+# Get all scans
+@scans.route("", methods=['GET'])
 def get_scans():
     success = True
     message = "Scans récupérés avec succès"
@@ -66,7 +66,7 @@ def get_scans():
         db = get_db()
         cursor = db.cursor()
 
-        sql_request = '''SELECT * FROM scan;'''
+        sql_request = '''SELECT * FROM scan s;'''
 
         cursor.execute(sql_request)
         rows = cursor.fetchall()
@@ -74,6 +74,37 @@ def get_scans():
     except:
         success = False
         message = "Erreur lors de la récupération des scans"
+
+    return {
+        "success": success,
+        "message": message,
+        "data": {
+            'count': count,
+            'rows': rows
+        }
+    }
+
+
+# Get number of scans by prediction
+@scans.route("/predictions/count", methods=['GET'])
+def get_nb_scans_by_prediction():
+    success = True
+    message = "Nombre de scans par prédiction récupéré avec succès"
+    count = 0
+    rows = []
+
+    try:
+        db = get_db()
+        cursor = db.cursor()
+
+        sql_request = '''SELECT prediction, count(*) FROM scan s GROUP BY s.prediction;'''
+
+        cursor.execute(sql_request)
+        rows = cursor.fetchall()
+        count = len(rows)
+    except:
+        success = False
+        message = "Erreur lors de la récupération du nombre de scans par prédiction"
 
     return {
         "success": success,
