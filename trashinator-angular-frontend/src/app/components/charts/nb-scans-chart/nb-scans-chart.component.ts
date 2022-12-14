@@ -9,15 +9,25 @@ import { ScansService } from "../../../services/scans.service";
 })
 export class NbScansChartComponent implements OnInit {
   chartOptions: EChartsOption|null = null;
+  data: Array<number> = [0, 0, 0, 0, 0, 0, 0];
 
   constructor(private scansService: ScansService) {}
 
   ngOnInit() {
-    const data = this.scansService.getNbScansByDay();
+    this.loadChartOptions();
 
+    this.scansService.getNbScansByDay('True').subscribe(response => {
+      response.data.rows.forEach((day: any[]) => {
+          this.data[day[1]] = day[2];
+        });
+      this.loadChartOptions();
+      });
+  }
+
+  private loadChartOptions() {
     this.chartOptions = {
       title: {
-        text: 'Scans de la semaine',
+        text: 'Scans des 7 derniers jours',
         subtext: '',
       },
       tooltip: {
@@ -55,7 +65,7 @@ export class NbScansChartComponent implements OnInit {
       },
       series: [
         {
-          data: data,
+          data: this.data,
           type: 'bar',
           name: 'Scans généraux',
           showBackground: true,

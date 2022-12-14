@@ -14,13 +14,9 @@ export class ScansService {
 
   constructor(private http: HttpClient) { }
 
-  public getNbScansByDay(): Array<any> {
-    return [120, 180, 150, 80, 70, 110, 130];
-  }
-
-  public getScans(): Observable<any> {
+  public getScans(lastWeek: string = ''): Observable<any> {
     return this.http.get(
-      this.rootURL + '/scans',
+      this.rootURL + '/scans?last_week=' + lastWeek,
       { headers: this.headers }
     ).pipe( map(res => res), catchError(err => throwError(err)) );
   }
@@ -30,5 +26,13 @@ export class ScansService {
       this.rootURL + '/scans/predictions/count',
       { headers: this.headers }
     ).pipe( map(res => res), catchError(err => throwError(err)) );
+  }
+
+  public getNbScansByDay(lastWeek: string = ''): Observable<any> {
+    return this.http.get(
+      this.rootURL + '/scans/count?last_week=' + lastWeek,
+      { headers: this.headers }
+    ).pipe( map(res => res), catchError(err => throwError(err)) );
+    //return [120, 180, 150, 80, 70, 110, 130];
   }
 }

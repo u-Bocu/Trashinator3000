@@ -54,9 +54,12 @@ def result():
     return j_res
 
 
-# Get all scans
+# Get all scans or scans from last week
 @scans.route("", methods=['GET'])
 def get_scans():
+    args = request.args
+    last_week = args.get("last_week", default=False, type=bool)
+
     success = True
     message = "Scans récupérés avec succès"
     count = 0
@@ -66,7 +69,12 @@ def get_scans():
         db = get_db()
         cursor = db.cursor()
 
-        sql_request = '''SELECT * FROM scan s;'''
+        # All scans or scans from last week
+        if last_week:
+            sql_request = '''SELECT * FROM scan s WHERE date(s.timestamp) BETWEEN date(current_timestamp, '-6 days') 
+                AND date(current_timestamp);'''
+        else:
+            sql_request = '''SELECT * FROM scan s;'''
 
         cursor.execute(sql_request)
         rows = cursor.fetchall()
@@ -105,6 +113,47 @@ def get_nb_scans_by_prediction():
     except:
         success = False
         message = "Erreur lors de la récupération du nombre de scans par prédiction"
+
+    return {
+        "success": success,
+        "message": message,
+        "data": {
+            'count': count,
+            'rows': rows
+        }
+    }
+
+
+# Get number of all scans by day or scans by day from last week
+@scans.route("/count", methods=['GET'])
+def get_nb_scans_by_day():
+    args = request.args
+    last_week = args.get("last_week", default=False, type=bool)
+
+    success = True
+    message = "Nombre de scans par jour récupéré avec succès"
+    count = 0
+    rows = []
+
+    try:
+        db = get_db()
+        cursor = db.cursor()
+
+        # Count all scans or scans from last week
+        if last_week:
+            sql_request = '''SELECT strftime('%d', `timestamp`) day, strftime('%w', `timestamp`), count(*) FROM scan s
+                WHERE date(s.timestamp) BETWEEN date(current_timestamp, '-6 days') AND date(current_timestamp)
+                GROUP BY day;'''
+        else:
+            sql_request = '''SELECT strftime('%d', `timestamp`) day, strftime('%w', `timestamp`), count(*) FROM scan s 
+                GROUP BY day;'''
+
+        cursor.execute(sql_request)
+        rows = cursor.fetchall()
+        count = len(rows)
+    except:
+        success = False
+        message = "Erreur lors de la récupération du nombre de scans par jour"
 
     return {
         "success": success,
