@@ -9,7 +9,9 @@ import { ScansService } from "../../../services/scans.service";
 })
 export class NbScansChartComponent implements OnInit {
   chartOptions: EChartsOption|null = null;
-  data: Array<number> = [0, 0, 0, 0, 0, 0, 0];
+  nbScansByDay: Array<number> = [0, 0, 0, 0, 0, 0, 0];
+  days: Array<string> = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+  currentDayNumber = new Date().getDay();
 
   constructor(private scansService: ScansService) {}
 
@@ -18,8 +20,10 @@ export class NbScansChartComponent implements OnInit {
 
     this.scansService.getNbScansByDay('True').subscribe(response => {
       response.data.rows.forEach((day: any[]) => {
-          this.data[day[1]] = day[2];
+          this.nbScansByDay[day[1]] = day[2];
         });
+      this.nbScansByDay.push(this.nbScansByDay.shift()!); // Règle le décalage des jours (0 = dimanche pour SQLite)
+      this.moveDaysInWeek();
       this.loadChartOptions();
       });
   }
@@ -57,7 +61,7 @@ export class NbScansChartComponent implements OnInit {
       },
       xAxis: {
         type: 'category',
-        data: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']
+        data: this.days
       },
       yAxis: {
         type: 'value',
@@ -65,7 +69,7 @@ export class NbScansChartComponent implements OnInit {
       },
       series: [
         {
-          data: this.data,
+          data: this.nbScansByDay,
           type: 'bar',
           name: 'Scans généraux',
           showBackground: true,
@@ -80,5 +84,14 @@ export class NbScansChartComponent implements OnInit {
         }
       ]
     };
+  }
+
+  // Déplace les jours de la semaine ainsi que le nombre de scans associé à chaque jour
+  // Example : On est mercredi, on déplace les jours pour avoir un graphique de jeudi dernier à aujourd'hui (mercredi)
+  private moveDaysInWeek() {
+    for (let i = 0; i < this.currentDayNumber; i++) {
+      this.nbScansByDay.push(this.nbScansByDay.shift()!);
+      this.days.push(this.days.shift()!);
+    }
   }
 }
