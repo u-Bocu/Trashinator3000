@@ -30,14 +30,14 @@ VALUES ("dfh", "azerty"),
         ("issa_de_qista", "kjhgf");
 
 -- Add some dummy scan
-INSERT INTO scan (user_id, filename, confidence, prediction)
-VALUES (1, "toto.png", 80, "organic"),
-        (NULL, "tutu.png", 92, "paper"),
-        (2, "pigeon.png", 72, "plastic"),
-        (3, "example.png", 84, "paper"),
-        (4, "azert.png", 75, "organic"),
-        (1, "jhgf.png", 78, "other"),
-        (4, "pomme.png", 78, "organic"),
-        (NULL, "scrap_metal.png", 78, "g&m"),
-        (NULL, "jhgf.png", 78, "other"),
-        (4, "jhgf.png", 78, "other");
+INSERT INTO scan (user_id, filename, timestamp, confidence, prediction)
+VALUES (1, "toto.png", date(current_timestamp, '-8 days'), 80, "organic"),
+        (NULL, "tutu.png", date(current_timestamp, '-7 days'), 92, "paper"),
+        (2, "pigeon.png", date(current_timestamp, '-6 days'), 72, "plastic"),
+        (3, "example.png", date(current_timestamp, '-3 days'), 84, "paper"),
+        (4, "azert.png", date(current_timestamp, '-4 days'), 75, "organic"),
+        (1, "jhgf.png", date(current_timestamp, '-4 days'), 78, "other"),
+        (4, "pomme.png", date(current_timestamp, '-5 days'), 78, "organic"),
+        (NULL, "scrap_metal.png", date(current_timestamp), 78, "g&m"),
+        (NULL, "jhgf.png", date(current_timestamp), 78, "other"),
+        (4, "jhgf.png", date(current_timestamp, '-2 days'), 78, "other");
