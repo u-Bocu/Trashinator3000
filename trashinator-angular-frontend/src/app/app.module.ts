@@ -23,6 +23,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxEchartsModule } from "ngx-echarts";
 import { NbScansChartComponent } from './components/charts/nb-scans-chart/nb-scans-chart.component';
+import { DragAndDropDirective } from './directives/drag-and-drop.directive';
+import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { NbScansChartComponent } from './components/charts/nb-scans-chart/nb-sca
     DashboardComponent,
     NavigationComponent,
     WasteFormComponent,
-    NbScansChartComponent
+    NbScansChartComponent,
+    DragAndDropDirective,
+    ProgressBarComponent
   ],
   imports: [
     BrowserModule,
