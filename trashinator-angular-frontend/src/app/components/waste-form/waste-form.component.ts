@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import {ScansService} from "../../services/scans.service";
 
 @Component({
   selector: 'app-waste-form',
@@ -10,7 +11,10 @@ export class WasteFormComponent {
   form = this.fb.group({});
   files: any[] = [];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private scansService: ScansService
+  ) {}
 
   /**
    * on file drop handler
@@ -83,6 +87,10 @@ export class WasteFormComponent {
   }
 
   onSubmit(): void {
+    this.scansService.postScan('C:\\Projets\\Trashinator3000\\trashinator-flask-api\\Dataset_resized_2.0\\Organic\\trash7.jpg')
+      .subscribe(response => {
+        console.log(response);
+      });
     alert('Thanks!');
   }
 }
