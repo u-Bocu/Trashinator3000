@@ -15,8 +15,8 @@ def allowed_file(filename):
 
 
 # On a POST request, returns a JSON Object of the prediction if the image is valid.
-@scans.route("/", methods=['POST'])
-def result():
+@scans.route("", methods=['POST'])
+def post_scan():
     j_userdata = request.get_json()
     userdata = json.load(j_userdata)
     user_id = userdata.id
