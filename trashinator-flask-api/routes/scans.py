@@ -3,6 +3,7 @@ from flask import Blueprint, json, request
 from werkzeug.utils import secure_filename
 from database import add_scan_to_db, get_db
 from model import get_trash
+import base64
 
 scans = Blueprint('scans', __name__)
 
@@ -17,10 +18,20 @@ def allowed_file(filename):
 # On a POST request, returns a JSON Object of the prediction if the image is valid.
 @scans.route("", methods=['POST'])
 def post_scan():
-    j_userdata = request.get_json()
-    userdata = json.load(j_userdata)
-    user_id = userdata.id
+    #j_userdata = request.get_json()
+    #userdata = json.load(j_userdata)
+    #user_id = userdata.id
 
+    j_userdata = request.get_json();
+    data_splitted = j_userdata.get('filePath').split(',')[1]
+
+    fh = open("./Images/imageToSave.png", "wb")
+    fh.write(base64.decodebytes(data_splitted.encode()))
+    fh.close()
+
+    #filename =  j_userdata.get("filePath")
+    user_id = 1; #A envoyé via la post request
+    
     res = {
         "success": False,
         "message": "Impossible de lire ce fichier",
@@ -31,15 +42,9 @@ def post_scan():
     }
 
     if request.method == 'POST':
-        file = request.files['image']
-
-        if file.filename != '' \
-                and file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join('demo_flask\\Images', filename))
-
-            confidence, prediction = get_trash(filename)
-            add_scan_to_db(user_id, filename, confidence, prediction)
+            confidence, prediction = get_trash("imageToSave.png")
+            print(confidence, prediction)
+            add_scan_to_db(user_id, data_splitted, confidence, prediction)
 
             res = {
                 "success": True,
@@ -51,6 +56,7 @@ def post_scan():
             }
 
     j_res = json.dumps(res)
+    
     return j_res
 
 

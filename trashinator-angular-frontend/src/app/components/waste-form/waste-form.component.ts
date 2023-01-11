@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { read } from 'fs';
 import {ScansService} from "../../services/scans.service";
 
 @Component({
@@ -10,7 +11,7 @@ import {ScansService} from "../../services/scans.service";
 export class WasteFormComponent {
   form = this.fb.group({});
   files: any[] = [];
-
+  imageUrl : string | ArrayBuffer | null = ""
   constructor(
     private fb: FormBuilder,
     private scansService: ScansService
@@ -63,11 +64,22 @@ export class WasteFormComponent {
    * @param files (Files List)
    */
   prepareFilesList(files: Array<any>) {
+    
     for (const item of files) {
       item.progress = 0;
       this.files.push(item);
     }
+
+    //Convert image to base64
+    const file = files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+    this.imageUrl = reader.result;
+};
+
     this.uploadFilesSimulator(0);
+   
   }
 
   /**
@@ -86,8 +98,9 @@ export class WasteFormComponent {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 
-  onSubmit(): void {
-    this.scansService.postScan('C:\\Projets\\Trashinator3000\\trashinator-flask-api\\Dataset_resized_2.0\\Organic\\trash7.jpg')
+  onSubmit(): void 
+  {   
+    this.scansService.postScan(this.imageUrl)
       .subscribe(response => {
         console.log(response);
       });

@@ -14,7 +14,7 @@ export class ScansService {
 
   constructor(private http: HttpClient) { }
 
-  public postScan(filePath: string): Observable<any> {
+  public postScan(filePath: string | ArrayBuffer | null): Observable<any> {
     return this.http.post(
       this.rootURL + '/scans',
       { filePath: filePath },
