@@ -11,6 +11,7 @@ import {ScansService} from "../../services/scans.service";
 export class WasteFormComponent {
   form = this.fb.group({});
   files: any[] = [];
+  test: any[] = [];
   imageUrl : string | ArrayBuffer | null = ""
   constructor(
     private fb: FormBuilder,
@@ -52,7 +53,7 @@ export class WasteFormComponent {
             clearInterval(progressInterval);
             this.uploadFilesSimulator(index + 1);
           } else {
-            this.files[index].progress += 5;
+            this.files[index].progress += 10;
           }
         }, 200);
       }
@@ -75,7 +76,7 @@ export class WasteFormComponent {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-    this.imageUrl = reader.result;
+    this.test.push(reader.result);
 };
 
     this.uploadFilesSimulator(0);
@@ -100,10 +101,16 @@ export class WasteFormComponent {
 
   onSubmit(): void 
   {   
-    this.scansService.postScan(this.imageUrl)
-      .subscribe(response => {
-        console.log(response);
-      });
-    alert('Thanks!');
+
+    for (const item of this.test) 
+    {
+        console.log(item)
+
+      this.scansService.postScan(item)
+        .subscribe(response => {
+          console.log(response);
+        });
+        //alert('Thanks!');
+    }
   }
 }

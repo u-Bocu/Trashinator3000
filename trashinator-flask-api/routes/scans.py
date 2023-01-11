@@ -59,7 +59,6 @@ def post_scan():
     
     return j_res
 
-
 # Get all scans or scans from last week
 @scans.route("", methods=['GET'])
 def get_scans():
