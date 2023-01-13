@@ -1,4 +1,5 @@
 # https://flask.palletsprojects.com/en/2.2.x/patterns/fileuploads/
+#Need to launch the server first
 
 from flask import Flask, g
 from flask_cors import CORS
