@@ -21,43 +21,40 @@ def post_scan():
     #j_userdata = request.get_json()
     #userdata = json.load(j_userdata)
     #user_id = userdata.id
-
-    j_userdata = request.get_json();
-    data_splitted = j_userdata.get('filePath').split(',')[1]
-
-    fh = open("./Images/imageToSave.png", "wb")
-    fh.write(base64.decodebytes(data_splitted.encode()))
-    fh.close()
-
-    #filename =  j_userdata.get("filePath")
     user_id = 1; #A envoyé via la post request
+    maListe = []
+
+    j_userdata = request.get_json()
+    for i in range(len(j_userdata.get('filePath'))): #The size of filepath contains the size of the array #need to reset the front after sending an image because it's stuck with the old images
+        data_splitted = j_userdata.get('filePath')[i].split(',')[1]
+        res = {
+            "success": False,
+            "message": "Impossible de lire ce fichier",
+            "data": {
+                "confidence": None,
+                "output": None,
+            },
+        }
+
+        #if request.method == 'POST':
+        confidence, prediction = get_trash(base64.decodebytes(data_splitted.encode('utf-8')))
+        print(confidence, prediction)
+        add_scan_to_db(user_id, data_splitted, confidence, prediction)
+
+        res = {
+            "success": True,
+            "message": "",
+            "data": {
+                "confidence": confidence,
+                "output": prediction,
+            },
+        }
+
+        j_res = json.dumps(res)
+        maListe.append(j_res) #Concat the json answer before returning the list
+
+    return maListe
     
-    res = {
-        "success": False,
-        "message": "Impossible de lire ce fichier",
-        "data": {
-            "confidence": None,
-            "output": None,
-        },
-    }
-
-    if request.method == 'POST':
-            confidence, prediction = get_trash("imageToSave.png")
-            print(confidence, prediction)
-            add_scan_to_db(user_id, data_splitted, confidence, prediction)
-
-            res = {
-                "success": True,
-                "message": "",
-                "data": {
-                    "confidence": confidence,
-                    "output": prediction,
-                },
-            }
-
-    j_res = json.dumps(res)
-    
-    return j_res
 
 # Get all scans or scans from last week
 @scans.route("", methods=['GET'])

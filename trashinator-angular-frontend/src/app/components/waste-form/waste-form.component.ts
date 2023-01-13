@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { read } from 'fs';
 import {ScansService} from "../../services/scans.service";
 
 @Component({
@@ -9,10 +8,13 @@ import {ScansService} from "../../services/scans.service";
   styleUrls: ['./waste-form.component.css']
 })
 export class WasteFormComponent {
+
   form = this.fb.group({});
   files: any[] = [];
-  test: any[] = [];
-  imageUrl : string | ArrayBuffer | null = ""
+  imageArray: any[] = [];
+  dataArray : any[] = []
+  confidenceArray : any[] = []
+
   constructor(
     private fb: FormBuilder,
     private scansService: ScansService
@@ -38,6 +40,10 @@ export class WasteFormComponent {
    */
   deleteFile(index: number) {
     this.files.splice(index, 1);
+    this.imageArray.splice(index,1);
+    this.dataArray.splice(index,1);
+    this.confidenceArray.splice(index,1);
+
   }
 
   /**
@@ -53,7 +59,7 @@ export class WasteFormComponent {
             clearInterval(progressInterval);
             this.uploadFilesSimulator(index + 1);
           } else {
-            this.files[index].progress += 10;
+            this.files[index].progress += 25;
           }
         }, 200);
       }
@@ -66,17 +72,20 @@ export class WasteFormComponent {
    */
   prepareFilesList(files: Array<any>) {
     
+    //let i = 0
     for (const item of files) {
-      item.progress = 0;
-      this.files.push(item);
-    }
 
-    //Convert image to base64
-    const file = files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-    this.test.push(reader.result);
+      //Convert image to base64
+      const reader = new FileReader();
+      reader.readAsDataURL(item);
+      reader.onload = () => {
+      this.imageArray.push(reader.result); //Le nom a modifier
+
+
+      item.progress = 0;
+      item.image = reader.result
+      this.files.push(item)      
+    }  
 };
 
     this.uploadFilesSimulator(0);
@@ -101,16 +110,19 @@ export class WasteFormComponent {
 
   onSubmit(): void 
   {   
-
-    for (const item of this.test) 
-    {
-        console.log(item)
-
-      this.scansService.postScan(item)
+      this.scansService.postScan(this.imageArray)
         .subscribe(response => {
-          console.log(response);
+
+          this.dataArray = []
+          this.confidenceArray = []
+
+         
+          for(let i =0; i < response.length; i++)
+          {
+            this.dataArray.push(JSON.parse(response[i]).data.output)
+            this.confidenceArray.push(JSON.parse(response[i]).data.confidence + "%")
+          }
+          
         });
-        //alert('Thanks!');
-    }
   }
 }
