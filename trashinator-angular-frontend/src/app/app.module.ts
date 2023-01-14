@@ -25,6 +25,7 @@ import { NgxEchartsModule } from "ngx-echarts";
 import { NbScansChartComponent } from './components/charts/nb-scans-chart/nb-scans-chart.component';
 import { DragAndDropDirective } from './directives/drag-and-drop.directive';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
+import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
@@ -36,6 +37,7 @@ import { LoginComponent } from './components/login/login.component';
     NbScansChartComponent,
     DragAndDropDirective,
     ProgressBarComponent,
+    SignupComponent,
     LoginComponent
   ],
   imports: [

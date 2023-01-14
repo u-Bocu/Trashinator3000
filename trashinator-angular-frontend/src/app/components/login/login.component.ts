@@ -1,29 +1,42 @@
 import { Component } from '@angular/core';
 import {Md5} from 'ts-md5';
-
+import { FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'login',
+  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-
 export class LoginComponent {
-id : string = "";
-password : string = "test";
 
-constructor() {}
+hidePassword = true;
+md5HashedPassword : string = "";
 
-onSubmit(): void
+form = this.fb.group({
+  username : ['', Validators.required],
+  password : ['', Validators.required]
+})
+
+constructor(
+  private fb : FormBuilder,
+  private authService: AuthService
+) {}
+
+Login(): void
 {
-  this.password = Md5.hashStr("Strinsdg")
+  this.md5HashedPassword = Md5.hashStr(this.form.value.password!);
 
-  console.log(this.password)  
+  this.authService.Login(this.form.value.username!, this.md5HashedPassword)
+    .subscribe(response => {
+        console.log(response);
+        alert(response.message)
+
+        if(response.sucess == "false")
+        {
+          this.form.value.password = ""  
+        }
+    });
+  }
 }
 
-
-
-
-
-
-}

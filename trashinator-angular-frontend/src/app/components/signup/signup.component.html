@@ -1,11 +1,11 @@
 <div class="login-container">
     <form [formGroup]="form" class="login-form">
-      <h1 class="form-title">Login</h1>
+      <h1 class="form-title">Sign-up</h1>
       <div class="form-group">
         <mat-form-field style="width: 100%;">
           <mat-label>Username</mat-label>
           <input matInput autocomplete="on" formControlName="username">
-        </mat-form-field>    
+        </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field style="width: 100%;">
@@ -17,15 +17,14 @@
         </mat-form-field>
       </div>
       <div class="form-group">
-        <button type="button" class="btn btn-primary" (click)="Login()">Connexion</button>
+        <mat-form-field style="width: 100%;">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput autocomplete="on" formControlName="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'">
+            <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" type="button">
+              <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
       </div>
-      <div style="display: flex;">
-        <div>
-          <p> Create an accout ? <a [routerLink]="['/sign-up']">Sign Up</a></p>
-        </div>
-        <div style="margin-left: 18.8%;">
-          <a [routerLink]="['/']" >Forgot your password ? </a>
-        </div>
-      </div>
+      <button type="button" class="btn btn-primary" (click)="Signup()">Sign-up</button>
     </form>
 </div>

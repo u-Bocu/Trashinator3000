@@ -7,6 +7,7 @@ import {ScansService} from "../../services/scans.service";
   templateUrl: './waste-form.component.html',
   styleUrls: ['./waste-form.component.css']
 })
+
 export class WasteFormComponent {
 
   form = this.fb.group({});

@@ -13,23 +13,82 @@ def get_db():
 
     return db
 
-
-# Tries to add a user to DB and returns 0 if succeeded, 1 otherwise.
-def add_user_to_db(username, password):
+def doesUserExist(username):
     err = True
 
     try:
         db = get_db()
         cursor = db.cursor()
 
-        sql_request = ''' INSERT INTO user (username, password) 
-                    VALUES (''' + username + ''', ''' + password + ''');'''
-
+        sql_request = f''' SELECT username FROM user WHERE  username = '{username}' '''
         cursor.execute(sql_request)
-    except:
-        err = False
+
+        if(cursor.fetchone() == None):
+            err = False
+
+    except sqlite3.Error as e:
+        print(e)
 
     return err
+
+# Tries to add a user to DB and returns 0 if succeeded, 1 otherwise.
+def add_user_to_db(username, password):
+
+    err = False
+    if not doesUserExist(username):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+
+            sql_request = f''' INSERT INTO user (username, password) 
+                        VALUES ('{username}', '{password}');'''
+
+            cursor.execute(sql_request)
+            db.commit()
+            err = True
+
+        except sqlite3.Error as e:
+            print(e)
+
+    return err
+
+def check_user_password_in_db(username, password):
+
+    err = False
+    if doesUserExist(username):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+
+            sql_request = f''' SELECT password FROM user WHERE username='{username}'  '''
+
+            cursor.execute(sql_request)
+
+            if password == cursor.fetchone()[0]:
+                err = True
+
+        except sqlite3.Error as e:
+            print(e)
+
+    return err
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Tries to add a scan to DB and returns 0 if succeeded, 1 otherwise.
@@ -50,4 +109,4 @@ def add_scan_to_db(user_id, filename, confidence, prediction):
     except:
         err = False
 
-    return err
+    return err 
