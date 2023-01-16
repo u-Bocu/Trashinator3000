@@ -3,6 +3,7 @@ from flask import Blueprint, json, request
 from werkzeug.utils import secure_filename
 from database import add_scan_to_db, get_db
 from model import get_trash
+import base64
 
 scans = Blueprint('scans', __name__)
 
@@ -15,44 +16,45 @@ def allowed_file(filename):
 
 
 # On a POST request, returns a JSON Object of the prediction if the image is valid.
-@scans.route("/", methods=['POST'])
-def result():
+@scans.route("", methods=['POST'])
+def post_scan():
+    #j_userdata = request.get_json()
+    #userdata = json.load(j_userdata)
+    #user_id = userdata.id
+    user_id = 1; #A envoyé via la post request
+    maListe = []
+
     j_userdata = request.get_json()
-    userdata = json.load(j_userdata)
-    user_id = userdata.id
+    for i in range(len(j_userdata.get('filePath'))): #The size of filepath contains the size of the array #need to reset the front after sending an image because it's stuck with the old images
+        data_splitted = j_userdata.get('filePath')[i].split(',')[1]
+        res = {
+            "success": False,
+            "message": "Impossible de lire ce fichier",
+            "data": {
+                "confidence": None,
+                "output": None,
+            },
+        }
 
-    res = {
-        "success": False,
-        "message": "Impossible de lire ce fichier",
-        "data": {
-            "confidence": None,
-            "output": None,
-        },
-    }
+        #if request.method == 'POST':
+        confidence, prediction = get_trash(base64.decodebytes(data_splitted.encode('utf-8')))
+        print(confidence, prediction)
+        add_scan_to_db(user_id, data_splitted, confidence, prediction)
 
-    if request.method == 'POST':
-        file = request.files['image']
+        res = {
+            "success": True,
+            "message": "",
+            "data": {
+                "confidence": confidence,
+                "output": prediction,
+            },
+        }
 
-        if file.filename != '' \
-                and file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join('demo_flask\\Images', filename))
+        j_res = json.dumps(res)
+        maListe.append(j_res) #Concat the json answer before returning the list
 
-            confidence, prediction = get_trash(filename)
-            add_scan_to_db(user_id, filename, confidence, prediction)
-
-            res = {
-                "success": True,
-                "message": "",
-                "data": {
-                    "confidence": confidence,
-                    "output": prediction,
-                },
-            }
-
-    j_res = json.dumps(res)
-    return j_res
-
+    return maListe
+    
 
 # Get all scans or scans from last week
 @scans.route("", methods=['GET'])

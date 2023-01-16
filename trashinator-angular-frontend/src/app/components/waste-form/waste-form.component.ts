@@ -1,16 +1,25 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import {ScansService} from "../../services/scans.service";
 
 @Component({
   selector: 'app-waste-form',
   templateUrl: './waste-form.component.html',
   styleUrls: ['./waste-form.component.css']
 })
+
 export class WasteFormComponent {
+
   form = this.fb.group({});
   files: any[] = [];
+  imageArray: any[] = [];
+  dataArray : any[] = []
+  confidenceArray : any[] = []
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private scansService: ScansService
+  ) {}
 
   /**
    * on file drop handler
@@ -32,6 +41,10 @@ export class WasteFormComponent {
    */
   deleteFile(index: number) {
     this.files.splice(index, 1);
+    this.imageArray.splice(index,1);
+    this.dataArray.splice(index,1);
+    this.confidenceArray.splice(index,1);
+
   }
 
   /**
@@ -47,7 +60,7 @@ export class WasteFormComponent {
             clearInterval(progressInterval);
             this.uploadFilesSimulator(index + 1);
           } else {
-            this.files[index].progress += 5;
+            this.files[index].progress += 25;
           }
         }, 200);
       }
@@ -59,11 +72,25 @@ export class WasteFormComponent {
    * @param files (Files List)
    */
   prepareFilesList(files: Array<any>) {
+    
+    //let i = 0
     for (const item of files) {
+
+      //Convert image to base64
+      const reader = new FileReader();
+      reader.readAsDataURL(item);
+      reader.onload = () => {
+      this.imageArray.push(reader.result); //Le nom a modifier
+
+
       item.progress = 0;
-      this.files.push(item);
-    }
+      item.image = reader.result
+      this.files.push(item)      
+    }  
+};
+
     this.uploadFilesSimulator(0);
+   
   }
 
   /**
@@ -82,7 +109,21 @@ export class WasteFormComponent {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 
-  onSubmit(): void {
-    alert('Thanks!');
+  onSubmit(): void 
+  {   
+      this.scansService.postScan(this.imageArray)
+        .subscribe(response => {
+
+          this.dataArray = []
+          this.confidenceArray = []
+
+         
+          for(let i =0; i < response.length; i++)
+          {
+            this.dataArray.push(JSON.parse(response[i]).data.output)
+            this.confidenceArray.push(JSON.parse(response[i]).data.confidence + "%")
+          }
+          
+        });
   }
 }
