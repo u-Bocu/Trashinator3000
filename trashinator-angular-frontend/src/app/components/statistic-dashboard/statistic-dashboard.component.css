@@ -1,0 +1,45 @@
+.dashboard-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+}
+
+.dashboard-card-content {
+  text-align: center;
+}
+
+mat-card {
+  color: white;
+}
+
+.card-content-stats {
+  transform: scale(2);
+}
+
+/* Dégradés de couleur */
+mat-grid-tile:nth-child(1) mat-card {
+  background: rgb(35,192,187);
+  background: linear-gradient(145deg, rgba(35,192,187,1) 0%, rgb(102, 241, 177) 100%);
+}
+
+mat-grid-tile:nth-child(2) mat-card {
+  background: rgb(242,138,94);
+  background: linear-gradient(145deg, rgba(242,138,94,1) 0%, rgb(243, 188, 127) 100%);
+}
+
+mat-grid-tile:nth-child(3) mat-card {
+  background: rgb(52,162,241);
+  background: linear-gradient(145deg, rgba(52,162,241,1) 0%, rgb(161, 219, 246) 100%);
+}
+
+mat-grid-tile:nth-child(4) mat-card {
+  background: rgb(99,77,52);
+  background: linear-gradient(145deg, rgba(99,77,52,1) 0%, rgba(203,194,189,1) 150%);
+}
+
+mat-grid-tile:nth-child(5) mat-card {
+  background: rgb(159,88,255);
+  background: linear-gradient(145deg, rgba(159,88,255,1) 0%, rgb(243, 140, 221) 100%);
+}
