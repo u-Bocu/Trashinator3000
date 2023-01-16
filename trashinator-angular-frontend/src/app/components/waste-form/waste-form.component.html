@@ -18,10 +18,14 @@
 
         <div class="files-list">
           <div class="single-file" *ngFor="let file of files; let i = index">
-            <mat-icon class="file">upload_file</mat-icon>
+            <img [src]="file.image" style="width: 70px; height:70px; padding-right: 10px;" alt="">
+            <!-- <mat-icon class="file">upload_file</mat-icon> -->
             <div class="info">
               <h4 class="name">
-                {{ file?.name }}
+                <!-- try to show result here -->
+                 {{ file?.name }} <div style="color: green"> {{ dataArray[i] }} {{ confidenceArray[i] }} </div>
+                 
+
               </h4>
               <p class="size">
                 {{ formatBytes(file?.size) }}

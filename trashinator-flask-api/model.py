@@ -3,6 +3,7 @@ from keras.utils import img_to_array
 from sklearn.preprocessing import LabelEncoder
 import numpy as np
 from PIL import Image
+from io import BytesIO
 
 # Load model
 model = load_model('model_5class_resnet_87%.h5')
@@ -23,7 +24,8 @@ def pre(img_to_resize):
 # The model predicts an output depending on the image.
 # Returns the confidence and the predicted class.
 def get_trash(img):
-    img = pre(Image.open('./Images/' + img))
+    #img = pre(Image.open(img))
+    img = pre(Image.open(BytesIO(img)))
     p = model.predict(img)
 
     confidences = max(np.squeeze(model.predict(img)))
