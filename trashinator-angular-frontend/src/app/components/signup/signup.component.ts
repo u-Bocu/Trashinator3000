@@ -3,7 +3,7 @@ import {Md5} from 'ts-md5';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-
+import { ToastrService  } from 'ngx-toastr';
 
 @Component({
   selector: 'signup',
@@ -13,6 +13,10 @@ import { Router } from '@angular/router';
 
 export class SignupComponent {
 
+isValid : boolean = false;
+patternUsername = "^[A-Za-z0-9_-]{4,15}$"
+patternPassword = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]{8,}$";
+
 md5HashedPassword : string = "";
 
 hidePassword = true;
@@ -21,31 +25,51 @@ hideConfirmPassword = true;
 form = this.fb.group({
   username : ['', Validators.required],
   password : ['', Validators.required],
-  confirmPassword : ['', Validators.required]
-})
+  confirmPassword : ['', Validators.required]});
 
 constructor(
   private fb : FormBuilder,
   private authService: AuthService,
-  private router: Router
+  private router: Router,
+  private toastr: ToastrService,
 ) {}
 
-Signup(): void
-{
-  //Need request from database to verify the identity
-  //Too much code in there for a submit
-  
-  if(this.form.value.password == this.form.value.confirmPassword)
-  {
-    this.md5HashedPassword = Md5.hashStr(this.form.value.password!);
-    this.authService.Signup(this.form.value.username!, this.md5HashedPassword)
-      .subscribe(response => {
-          console.log(response);
-          alert(response.message)
 
-          this.router.navigate(['/login'])
-      });
+Signup(): void
+{  
+  if(this.form.value.username != "" && this.form.value.password != "" && this.form.value.confirmPassword != "")
+  {
+      this.md5HashedPassword = Md5.hashStr(this.form.value.password!);
+      this.authService.Signup(this.form.value.username!, this.md5HashedPassword)
+
+      .subscribe(response => 
+      {
+          this.isValid = response.success
+
+          if(this.form.value.password != this.form.value.confirmPassword)
+          {
+            this.toastr.error("Les mots de passe ne correspondent pas", 'Erreur', {
+              positionClass: 'test'
+            });
+          }
+          else
+          {
+            if(this.isValid == false)
+            {
+              this.toastr.error(response.message, 'Erreur', {
+                positionClass: 'test'
+              });
+              this.form.value.password = ""  
+            }
+            else if(this.isValid == true)
+            {
+              this.toastr.success(response.message, 'Succès', {
+                positionClass: 'test'
+              });
+            this.router.navigate(['/login']);
+            }
+          }
+      })
   }
 }
-
 }

@@ -28,6 +28,7 @@ import { ProgressBarComponent } from './components/progress-bar/progress-bar.com
 import { StatisticDashboardComponent } from './components/statistic-dashboard/statistic-dashboard.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { LoginComponent } from './components/login/login.component';
     MatInputModule,
     MatSelectModule,
     MatRadioModule,
+    ToastrModule.forRoot({}),
     ReactiveFormsModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')

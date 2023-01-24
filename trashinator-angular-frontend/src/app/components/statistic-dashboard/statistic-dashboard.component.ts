@@ -17,9 +17,8 @@ export class StatisticDashboardComponent implements OnInit {
   metric2: number = 0;
   metric3: number = 0;
   metric4: number = 0;
-  metric5: number = 0;
+  metric5: number = 0
 
-  filePath: string = 'src/assets/waste_dataset_world_bank/country_level_data_0.csv';
   data: any;
 
   constructor(
@@ -28,6 +27,10 @@ export class StatisticDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+
+    console.log(this.worldBankService.getWorldStatistics("France").subscribe(response => {console.log(response) }));
+    console.log(this.worldBankService.getListOfCountry().subscribe(response => {console.log(response) }));
+
     /* Si l'écran est petit, passes les 'cards' de la taille standard vers une colonne */
     this.cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
       map(({ matches }) => {
@@ -56,9 +59,5 @@ export class StatisticDashboardComponent implements OnInit {
         ];
       })
     );
-
-    this.worldBankService.getWorldStatistics(this.filePath).subscribe((response: any) => {
-      this.data = response;
-    });
   }
 }

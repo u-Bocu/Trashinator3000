@@ -11,9 +11,9 @@ def signup():
     userdata = request.get_json()
 
     err = add_user_to_db(userdata.get('username'), userdata.get('password'))
-    message = "Impossible d'insérer cet utilisateur dans la base de données"
+    message = "Le nom d'utilisateur n'est plus disponible"
 
-    if err:
+    if err: #True mean no error
         message = "Login ajouté avec succès"
     
     res = {
