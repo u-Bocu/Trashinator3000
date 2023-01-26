@@ -15,10 +15,10 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   // TO MOVE TO AUTH.services.ts
-  public Signup(username : string, password : string) : Observable<any> {
+  public Signup(username : string, password : string, mailAdress : string) : Observable<any> {
     return this.http.post(
       this.rootURL + '/auth/sign-up',
-      { username : username , password : password},
+      { username : username , password : password, mailAdress : mailAdress},
       {headers: this.headers}
     );
   }
@@ -31,6 +31,24 @@ export class AuthService {
       {headers : this.headers}
     );
   }
+
+  public forgotPassword(mailAdress : string) : Observable<any>
+  {
+    return this.http.post(
+      this.rootURL + '/auth/forgotpassword',
+      { mailAdress : mailAdress },
+      {headers : this.headers}
+    );
+  }
+
+  public resetPassword(token : string, password : string) : Observable<any>
+{
+  return this.http.post(
+    this.rootURL + '/auth/resetpassword',
+    { token : token, password : password },
+    {headers : this.headers}
+  );
+}
 }
 
 

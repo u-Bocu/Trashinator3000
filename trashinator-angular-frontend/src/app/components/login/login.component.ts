@@ -45,7 +45,6 @@ Login(): void
             this.toastr.error('Identifiant ou mot de passe invalide', 'Erreur', {
               positionClass: 'test'
             });
-            this.form.value.password = ""  
           }
           else if(this.isValid == true)
           {

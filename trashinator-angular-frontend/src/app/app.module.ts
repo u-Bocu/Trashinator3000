@@ -29,6 +29,8 @@ import { StatisticDashboardComponent } from './components/statistic-dashboard/st
 import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
 import { ToastrModule } from 'ngx-toastr';
+import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { ToastrModule } from 'ngx-toastr';
     ProgressBarComponent,
     StatisticDashboardComponent,
     SignupComponent,
-    LoginComponent
+    LoginComponent,
+    ForgetPasswordComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
