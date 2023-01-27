@@ -58,15 +58,15 @@ export class DashboardComponent implements OnInit {
     this.scansService.getNbScansByPrediction().subscribe(response => {
       response.data.rows.forEach((prediction: any[]) => {
         switch (prediction[0]) {
-          case 'organic':
+          case 'Organic':
             this.organic = prediction[1]; break;
-          case 'paper':
+          case 'Paper':
             this.paper = prediction[1]; break;
-          case 'plastic':
+          case 'Plastic':
             this.plastic = prediction[1]; break;
-          case 'g&m':
+          case 'G&M':
             this.glassMetal = prediction[1]; break;
-          case 'other':
+          case 'Other':
             this.other = prediction[1]; break;
         }
       });

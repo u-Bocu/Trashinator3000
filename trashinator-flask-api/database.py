@@ -104,25 +104,24 @@ def check_user_mail_in_db(mail):
 
 
 # Tries to add a scan to DB and returns 0 if succeeded, 1 otherwise.
-def add_scan_to_db(user_id, filename, confidence, prediction):
+def add_scan_to_db(user_id, file, confidence, prediction):
     err = True
-
-    confidence = int(confidence * 100)
 
     try:
         db = get_db()
         cursor = db.cursor()
 
-        sql_request = ''' INSERT INTO scan (user_id, filename, confidence, prediction) 
-                    VALUES (''' + str(user_id) + ''', ''' + filename + ''', ''' + str(
-            confidence) + ''', ''' + prediction + ''');'''
+        sql_request = f''' INSERT INTO scan (user_id, file, confidence, prediction) 
+                    VALUES ('{user_id}', '{file}','{confidence}', '{prediction}' ); '''
 
         cursor.execute(sql_request)
+        db.commit();
     except:
         err = False
 
     return err 
 
+''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 def update_password(token, password):
     err = False

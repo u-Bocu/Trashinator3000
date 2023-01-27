@@ -15,12 +15,14 @@ export class WasteFormComponent {
   imageArray: any[] = [];
   dataArray : any[] = []
   confidenceArray : any[] = []
+  typeOfWasteArray : any[] = []
 
   constructor(
     private fb: FormBuilder,
     private scansService: ScansService
   ) {}
 
+  
   /**
    * on file drop handler
    */
@@ -44,7 +46,7 @@ export class WasteFormComponent {
     this.imageArray.splice(index,1);
     this.dataArray.splice(index,1);
     this.confidenceArray.splice(index,1);
-
+    this.typeOfWasteArray.splice(index,1);
   }
 
   /**
@@ -82,7 +84,6 @@ export class WasteFormComponent {
       reader.onload = () => {
       this.imageArray.push(reader.result); //Le nom a modifier
 
-
       item.progress = 0;
       item.image = reader.result
       this.files.push(item)      
@@ -111,19 +112,34 @@ export class WasteFormComponent {
 
   onSubmit(): void 
   {   
-      this.scansService.postScan(this.imageArray)
+      this.scansService.postScan(this.imageArray, "")
         .subscribe(response => {
 
           this.dataArray = []
           this.confidenceArray = []
-
+          this.typeOfWasteArray = []
          
           for(let i =0; i < response.length; i++)
           {
             this.dataArray.push(JSON.parse(response[i]).data.output)
             this.confidenceArray.push(JSON.parse(response[i]).data.confidence + "%")
           }
-          
-        });
+
+          for(let i = 0; i < this.dataArray.length;i++)
+          {
+            if(this.dataArray.at(i) == "Plastic" || this.dataArray.at(i) == "Paper" || this.dataArray.at(i) == "G&M")
+            {
+              this.typeOfWasteArray.push("Recyclable")
+            }
+            else if(this.dataArray.at(i) == "Organic")
+            {
+              this.typeOfWasteArray.push("Organique")
+            }
+            else if(this.dataArray.at(i) == "Other")
+            {
+              this.typeOfWasteArray.push("Non-recyclable")
+            }
+        }
+        }); 
   }
 }

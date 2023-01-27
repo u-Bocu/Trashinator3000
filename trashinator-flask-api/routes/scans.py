@@ -18,13 +18,11 @@ def allowed_file(filename):
 # On a POST request, returns a JSON Object of the prediction if the image is valid.
 @scans.route("", methods=['POST'])
 def post_scan():
-    #j_userdata = request.get_json()
-    #userdata = json.load(j_userdata)
-    #user_id = userdata.id
-    user_id = 1; #A envoyé via la post request
-    maListe = []
 
+    maListe = []
     j_userdata = request.get_json()
+    user_id = j_userdata.get('user_id'); 
+   
     for i in range(len(j_userdata.get('filePath'))): #The size of filepath contains the size of the array #need to reset the front after sending an image because it's stuck with the old images
         data_splitted = j_userdata.get('filePath')[i].split(',')[1]
         res = {
@@ -108,6 +106,7 @@ def get_nb_scans_by_prediction():
         cursor = db.cursor()
 
         sql_request = '''SELECT prediction, count(*) FROM scan s GROUP BY s.prediction;'''
+
 
         cursor.execute(sql_request)
         rows = cursor.fetchall()

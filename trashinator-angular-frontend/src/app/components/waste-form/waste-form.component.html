@@ -23,10 +23,12 @@
             <div class="info">
               <h4 class="name">
                 <!-- try to show result here -->
-                 {{ file?.name }} <div style="color: green"> {{ dataArray[i] }} {{ confidenceArray[i] }} </div>
-                 
-
+                 {{ file?.name }} 
               </h4>
+              <div class="container_info_image">
+                <div style="color: green"> {{ dataArray[i] }} {{ confidenceArray[i] }} </div>
+                <div style="margin-left: auto;" [ngClass]="{'green-text': typeOfWasteArray[i] == 'Recyclable' , 'red-text': typeOfWasteArray[i] == 'Non-recyclable', 'orange-text': typeOfWasteArray[i] == 'Organique'}">{{typeOfWasteArray[i]}}</div>
+              </div>
               <p class="size">
                 {{ formatBytes(file?.size) }}
               </p>

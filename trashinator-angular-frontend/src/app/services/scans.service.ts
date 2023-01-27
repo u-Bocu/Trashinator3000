@@ -14,10 +14,10 @@ export class ScansService {
 
   constructor(private http: HttpClient) { }
 
-  public postScan(filePath: string[] | ArrayBuffer[] | null): Observable<any> {
+  public postScan(filePath: string[] | ArrayBuffer[] | null, user_id : string): Observable<any> {
     return this.http.post(
       this.rootURL + '/scans',
-      {filePath: filePath},
+      {filePath: filePath, user_id},
       {headers: this.headers},
     );//.pipe(map(res => res), catchError(err => throwError(err)) ) not needed httpclient already handle that
   }

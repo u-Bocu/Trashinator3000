@@ -66,6 +66,7 @@ h3 {
   font-weight: 500;
   color: #353f4a;
   margin: 0;
+  display: flex;
 }
 
 .size {
@@ -130,5 +131,26 @@ mat-icon.file {
 
   100% {
     transform: translate(1px, -2px) rotate(-1deg);
-  }
+  }  
+}
+
+.green-text {
+  color: green;
+}
+
+.orange-text{
+  color: orange ;
+}
+
+.red-text {
+  color: red;
+}
+
+.container_info_image
+{
+  display: flex;
+  font-size: 14px;
+  font-weight: 500;
+  color: #353f4a;
+  display: flex;
 }
