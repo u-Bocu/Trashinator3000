@@ -19,7 +19,7 @@
                 <mat-icon>compost</mat-icon>
               </mat-grid-tile>
               <mat-grid-tile class="card-content-stats" colspan="3">
-                {{organic}}
+                {{organic | tons}}
               </mat-grid-tile>
             </div>
 
@@ -28,7 +28,7 @@
                 <mat-icon>newspaper</mat-icon>
               </mat-grid-tile>
               <mat-grid-tile class="card-content-stats" colspan="3">
-                {{paper}}
+                {{paper | tons}}
               </mat-grid-tile>
             </div>
 
@@ -37,7 +37,7 @@
                 <mat-icon>recycling</mat-icon>
               </mat-grid-tile>
               <mat-grid-tile class="card-content-stats" colspan="3">
-                {{plastic}}
+                {{plastic | tons}}
               </mat-grid-tile>
             </div>
 
@@ -46,7 +46,7 @@
                 <mat-icon>science</mat-icon>
               </mat-grid-tile>
               <mat-grid-tile class="card-content-stats" colspan="3">
-                {{glassMetal}}
+                {{glassMetal | tons}}
               </mat-grid-tile>
             </div>
 
@@ -55,7 +55,7 @@
                 <mat-icon>delete</mat-icon>
               </mat-grid-tile>
               <mat-grid-tile class="card-content-stats" colspan="3">
-                {{other}}
+                {{other | tons}}
               </mat-grid-tile>
             </div>
           </mat-grid-list>

@@ -32,6 +32,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { EditoComponent } from './components/edito/edito.component';
+import { TonsPipe } from './pipes/tons.pipe';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { EditoComponent } from './components/edito/edito.component';
     LoginComponent,
     ForgetPasswordComponent,
     ChangePasswordComponent,
-    EditoComponent
+    EditoComponent,
+    TonsPipe
   ],
   imports: [
     BrowserModule,
