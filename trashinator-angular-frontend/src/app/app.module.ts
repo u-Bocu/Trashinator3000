@@ -31,6 +31,7 @@ import { LoginComponent } from './components/login/login.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { EditoComponent } from './components/edito/edito.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
     SignupComponent,
     LoginComponent,
     ForgetPasswordComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    EditoComponent
   ],
   imports: [
     BrowserModule,
