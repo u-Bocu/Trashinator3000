@@ -7,6 +7,7 @@ import { WasteFormComponent } from "./components/waste-form/waste-form.component
 import { StatisticDashboardComponent } from "./components/statistic-dashboard/statistic-dashboard.component";
 import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import {EditoComponent} from "./components/edito/edito.component";
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'sign-up', component: SignupComponent},
   { path: 'forgot-password', component: ForgetPasswordComponent},
   { path: 'reset-password', component: ChangePasswordComponent},
-  { path: '**', component: DashboardComponent },
+  { path: 'edito', component: EditoComponent },
+  { path: '**', component: EditoComponent },
 ];
 
 @NgModule({
