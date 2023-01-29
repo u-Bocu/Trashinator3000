@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http"
-import {catchError, map, Observable, throwError} from "rxjs";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class WorldBankService {
     .set('Access-Control-Allow-Origin', '*');
 
   constructor(private http: HttpClient) { }
-  
+
   public getWorldStatistics(country_name: string): Observable<any> {
     return this.http.get(
       this.rootURL + '/global_data/world_data?countryName=' + country_name,

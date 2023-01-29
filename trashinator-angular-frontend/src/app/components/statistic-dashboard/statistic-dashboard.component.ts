@@ -19,8 +19,10 @@ export class StatisticDashboardComponent implements OnInit {
   glassMetal: number = 0;
   other: number = 0;
 
-  data: any;
+  selectedData: any;
   selectedCountry: string = "France";
+  comparedData: any;
+  comparedCountry: string = "";
   countries: string[] = [];
 
   constructor(
@@ -41,7 +43,7 @@ export class StatisticDashboardComponent implements OnInit {
             { title: 'Plastique', cols: 1, rows: 1 },
             { title: 'Verre/Métal', cols: 1, rows: 1 },
             { title: 'Autres', cols: 1, rows: 1 },
-            { title: '', cols: 1, rows: 2, content: '' }
+            { title: '', cols: 1, rows: 2, content: 'TonsWasteChartComponent' }
           ];
         }
 
@@ -53,7 +55,7 @@ export class StatisticDashboardComponent implements OnInit {
           { title: 'Plastique', cols: 1, rows: 1 },
           { title: 'Verre/Métal', cols: 1, rows: 1 },
           { title: 'Autres', cols: 1, rows: 1 },
-          { title: '', cols: 5, rows: 2, content: '' }
+          { title: '', cols: 5, rows: 2, content: 'TonsWasteChartComponent' }
         ];
       })
     );
@@ -64,15 +66,22 @@ export class StatisticDashboardComponent implements OnInit {
     });
   }
 
-  public getWorldData(): void {
-    this.worldBankService.getWorldStatistics(this.selectedCountry).subscribe(response => {
-      this.data = response.data;
+  public getWorldData(isSelected: boolean = true): void {
+    const country = isSelected ? this.selectedCountry : this.comparedCountry;
 
-      this.organic = this.data.organicWaste;
-      this.paper = this.data.paperWaste;
-      this.plastic = this.data.plasticWaste;
-      this.glassMetal = this.data.glassWaste + this.data.metalWaste;
-      this.other = this.data.otherWaste;
+    this.worldBankService.getWorldStatistics(country).subscribe(response => {
+      if (isSelected) {
+        this.selectedData = response.data;
+      } else {
+        this.comparedData = response.data;
+      }
+
+      // Données pour le premier filtre uniquement (pays selected, pas compared)
+      this.organic = this.selectedData.organicWaste;
+      this.paper = this.selectedData.paperWaste;
+      this.plastic = this.selectedData.plasticWaste;
+      this.glassMetal = this.selectedData.glassWaste + this.selectedData.metalWaste;
+      this.other = this.selectedData.otherWaste;
     });
   }
 }

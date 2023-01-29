@@ -2,14 +2,25 @@
   <div class="header">
     <h1>Statistiques mondiales</h1>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Filtre sur le pays</mat-label>
-      <mat-select [(value)]="selectedCountry" (selectionChange)="getWorldData()">
-        <mat-option *ngFor="let country of countries" [value]="country">
-          {{ country }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Pays</mat-label>
+        <mat-select [(value)]="selectedCountry" (selectionChange)="getWorldData(true)">
+          <mat-option *ngFor="let country of countries" [value]="country">
+            {{ country }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>à comparer avec</mat-label>
+        <mat-select [(value)]="comparedCountry" (selectionChange)="getWorldData(false)">
+          <mat-option *ngFor="let country of countries" [value]="country">
+            {{ country }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
 
   <mat-grid-list [cols]="nbColonnes" rowHeight="200px">
@@ -71,7 +82,9 @@
             </div>
           </mat-grid-list>
 
-          <!-- <app-waste-world-chart *ngIf="card.content == ''"></app-waste-world-chart> -->
+          <app-tons-waste-chart *ngIf="card.content == 'TonsWasteChartComponent'"
+                                [selectedCountryData]="selectedData" [comparedCountryData]="comparedData"
+          ></app-tons-waste-chart>
         </mat-card-content>
       </mat-card>
 
