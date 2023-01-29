@@ -33,6 +33,7 @@ import { ForgetPasswordComponent } from './components/forget-password/forget-pas
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { EditoComponent } from './components/edito/edito.component';
 import { TonsPipe } from './pipes/tons.pipe';
+import { TonsWasteChartComponent } from './components/charts/tons-waste-chart/tons-waste-chart.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { TonsPipe } from './pipes/tons.pipe';
     ForgetPasswordComponent,
     ChangePasswordComponent,
     EditoComponent,
-    TonsPipe
+    TonsPipe,
+    TonsWasteChartComponent
   ],
   imports: [
     BrowserModule,
