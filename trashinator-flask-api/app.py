@@ -1,5 +1,5 @@
 # https://flask.palletsprojects.com/en/2.2.x/patterns/fileuploads/
-#Need to launch the server first
+# Need to launch the server first
 
 from flask import Flask, g
 from flask_cors import CORS
@@ -14,6 +14,7 @@ app.register_blueprint(global_data, url_prefix='/api/global_data')
 
 CORS(app)
 
+
 # Closes the connection to DB if not already done.
 @app.teardown_appcontext
 def close_connection(exception):
@@ -24,5 +25,4 @@ def close_connection(exception):
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=8080, debug=True) #Enlever le debug true
-
+    app.run(host="127.0.0.1", port=8080, debug=True)  # Enlever le debug true

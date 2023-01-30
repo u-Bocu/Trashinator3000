@@ -7,41 +7,41 @@ global_data = Blueprint('global_data', __name__)
 
 def setup_global_data():
     df = pd.read_csv("../trashinator-flask-api/assets/waste_dataset_world_bank/country_level_data_0-2.csv", sep=";")
-    dataFrameCalcul = (df[["composition_food_organic_waste_percent", "composition_glass_percent",
+    data_frame_calcul = (df[["composition_food_organic_waste_percent", "composition_glass_percent",
                            "composition_metal_percent", "composition_other_percent",
                            "composition_paper_cardboard_percent", "composition_plastic_percent"]].replace(',', '.',
                                                                                                           regex=True).astype(
         float) / 100).multiply(
         df["total_msw_total_msw_generated_tons_year"].replace(',', '.', regex=True).astype(float), axis=0)
-    dataFrame = pd.concat([df['country_name'], df['total_msw_total_msw_generated_tons_year'],
-                           dataFrameCalcul['composition_food_organic_waste_percent'],
-                           dataFrameCalcul['composition_glass_percent'], dataFrameCalcul['composition_metal_percent'],
-                           dataFrameCalcul['composition_other_percent'],
-                           dataFrameCalcul['composition_paper_cardboard_percent'],
-                           dataFrameCalcul['composition_plastic_percent']], axis=1)
+    data_frame = pd.concat([df['country_name'], df['total_msw_total_msw_generated_tons_year'],
+                           data_frame_calcul['composition_food_organic_waste_percent'],
+                           data_frame_calcul['composition_glass_percent'], data_frame_calcul['composition_metal_percent'],
+                           data_frame_calcul['composition_other_percent'],
+                           data_frame_calcul['composition_paper_cardboard_percent'],
+                           data_frame_calcul['composition_plastic_percent']], axis=1)
 
-    return dataFrame
+    return data_frame
 
 
 # Global variable that will hold the final dataframe in order to not regenerate him at each request.
-dataFrameFinal = setup_global_data().sort_values(by=['country_name'])
+data_frame_final = setup_global_data().sort_values(by=['country_name'])
 
 
-def request_countryName(dataFrameFinal):
-    data = dataFrameFinal['country_name'].to_numpy().flatten()
+def request_country_name(data_frame_final):
+    data = data_frame_final['country_name'].to_numpy().flatten()
     return data
 
 
-def request_data(filter_string, dataFrameFinal):
-    data = dataFrameFinal[dataFrameFinal['country_name'].str.startswith(filter_string)].to_numpy().flatten()
+def request_data(filter_string, data_frame_final):
+    data = data_frame_final[data_frame_final['country_name'].str.startswith(filter_string)].to_numpy().flatten()
     return data
 
 
 @global_data.route("/world_data", methods=['GET'])
-def get_GlobalData():
+def get_global_data():
     args = request.args
     filter_string = args.get("countryName", default="France", type=str)
-    values = request_data(filter_string, dataFrameFinal)
+    values = request_data(filter_string, data_frame_final)
 
     data = {
         "countryName": values[0],
@@ -67,8 +67,8 @@ def get_GlobalData():
 
 
 @global_data.route("/country_name", methods=['GET'])
-def get_CountryNameFromGlobalData():
-    countryList = request_countryName(dataFrameFinal)
+def get_country_name_from_global_data():
+    country_list = request_country_name(data_frame_final)
 
     err = ""
     message = "Liste des noms des pays"
@@ -76,7 +76,7 @@ def get_CountryNameFromGlobalData():
     res = {
         "success": err,
         "message": message,
-        "data": countryList.tolist()
+        "data": country_list.tolist()
     }
     print(res)
 

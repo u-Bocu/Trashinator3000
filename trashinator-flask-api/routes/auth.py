@@ -3,7 +3,7 @@ from database import add_user_to_db
 from database import check_user_password_in_db
 from database import check_user_mail_in_db
 from database import generate_token
-from database import add_Token_to_db
+from database import add_token_to_db
 from database import update_password
 
 import smtplib
@@ -95,7 +95,7 @@ def send_mail():
         server.quit()
 
         # Need to add the token into the database
-        add_Token_to_db(to_email, token)
+        add_token_to_db(to_email, token)
 
     return res
 

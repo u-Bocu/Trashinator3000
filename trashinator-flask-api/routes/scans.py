@@ -18,12 +18,12 @@ def allowed_file(filename):
 # On a POST request, returns a JSON Object of the prediction if the image is valid.
 @scans.route("", methods=['POST'])
 def post_scan():
-
     maListe = []
     j_userdata = request.get_json()
-    user_id = j_userdata.get('user_id'); 
-   
-    for i in range(len(j_userdata.get('filePath'))): #The size of filepath contains the size of the array #need to reset the front after sending an image because it's stuck with the old images
+    user_id = j_userdata.get('user_id');
+
+    for i in range(len(j_userdata.get(
+            'filePath'))):  # The size of filepath contains the size of the array #need to reset the front after sending an image because it's stuck with the old images
         data_splitted = j_userdata.get('filePath')[i].split(',')[1]
         res = {
             "success": False,
@@ -34,7 +34,7 @@ def post_scan():
             },
         }
 
-        #if request.method == 'POST':
+        # if request.method == 'POST':
         confidence, prediction = get_trash(base64.decodebytes(data_splitted.encode('utf-8')))
         print(confidence, prediction)
         add_scan_to_db(user_id, data_splitted, confidence, prediction)
@@ -49,10 +49,10 @@ def post_scan():
         }
 
         j_res = json.dumps(res)
-        maListe.append(j_res) #Concat the json answer before returning the list
+        maListe.append(j_res)  # Concat the json answer before returning the list
 
     return maListe
-    
+
 
 # Get all scans or scans from last week
 @scans.route("", methods=['GET'])
@@ -106,7 +106,6 @@ def get_nb_scans_by_prediction():
         cursor = db.cursor()
 
         sql_request = '''SELECT prediction, count(*) FROM scan s GROUP BY s.prediction;'''
-
 
         cursor.execute(sql_request)
         rows = cursor.fetchall()

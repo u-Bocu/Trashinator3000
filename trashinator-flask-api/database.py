@@ -20,7 +20,7 @@ def get_db():
     return db
 
 
-def doesUserExist(username):
+def does_user_exist(username):
     err = True
 
     try:
@@ -30,7 +30,7 @@ def doesUserExist(username):
         sql_request = f''' SELECT username FROM user WHERE  username = '{username}' '''
         cursor.execute(sql_request)
 
-        if (cursor.fetchone() == None):
+        if cursor.fetchone() is None:
             err = False
 
     except sqlite3.Error as e:
@@ -42,7 +42,7 @@ def doesUserExist(username):
 # Tries to add a user to DB and returns 0 if succeeded, 1 otherwise.
 def add_user_to_db(username, password, mailAdress):
     err = False
-    if not doesUserExist(username):
+    if not does_user_exist(username):
         try:
             db = get_db()
             cursor = db.cursor()
@@ -69,7 +69,7 @@ def add_user_to_db(username, password, mailAdress):
 
 def check_user_password_in_db(username, password):
     err = False
-    if doesUserExist(username):
+    if does_user_exist(username):
         try:
             db = get_db()
             cursor = db.cursor()
@@ -97,7 +97,7 @@ def check_user_mail_in_db(mail):
         sql_request = f''' SELECT COUNT(mailAdress) FROM user WHERE mailAdress='{mail}'  '''
         cursor.execute(sql_request)
 
-        if (cursor.fetchone()[0] != 0):
+        if cursor.fetchone()[0] != 0:
             err = True
 
     except sqlite3.Error as e:
@@ -131,7 +131,7 @@ def add_scan_to_db(user_id, file, confidence, prediction):
 def update_password(token, password):
     err = False
 
-    if (check_token_validity(token)):
+    if check_token_validity(token):
         try:
             db = get_db()
             cursor = db.cursor()
@@ -159,7 +159,7 @@ def check_token_validity(token):
         sql_request = f''' SELECT tokens_id FROM tokens WHERE tokens = '{token}' '''
         cursor.execute(sql_request)
 
-        if (cursor.fetchone()) == None:
+        if (cursor.fetchone()) is None:
             err = False
         else:
             err = True
@@ -176,7 +176,7 @@ def generate_token():
         range(128))
 
 
-def add_Token_to_db(mailAdress, token):
+def add_token_to_db(mailAdress, token):
     err = False
     try:
         timestamp = datetime.datetime.now()
