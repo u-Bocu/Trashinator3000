@@ -37,7 +37,7 @@ export class NavigationComponent {
     this.toastr.success('Déconnexion réussie', 'Succès', {
       positionClass: 'test'
     });
-    this.router.navigate(['/']).then(() => window.location.reload());
+    this.router.navigate(['/dashboard']).then(() => window.location.reload());
   }
 
 }

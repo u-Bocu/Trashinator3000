@@ -49,7 +49,7 @@ export class LoginComponent {
               positionClass: 'test'
             });
             this.localStorageService.saveData(this.form.value.username!);
-            this.router.navigate(['/']).then(() => window.location.reload());
+            this.router.navigate(['/dashboard']).then(() => window.location.reload());
           }
         });
     }
