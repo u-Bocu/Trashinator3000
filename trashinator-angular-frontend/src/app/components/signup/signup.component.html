@@ -1,9 +1,9 @@
 <div class="login-container">
     <form [formGroup]="form" class="login-form">
-      <h1 class="form-title">Sign-up</h1>
+      <h1 class="form-title">S'inscrire</h1>
       <div class="form-group">
         <mat-form-field style="width: 100%;">
-          <mat-label>Username</mat-label>
+          <mat-label>Identifiant</mat-label>
           <input matInput autocomplete="on" formControlName="username" [pattern]="patternUsername">
           <mat-error *ngIf="form.controls['username'].hasError('required')">
             Veuillez saisir un nom d'utilisateur.
@@ -31,7 +31,7 @@
 
       <div class="form-group">
         <mat-form-field style="width: 100%;">
-          <mat-label>Password</mat-label>
+          <mat-label>Mot de passe</mat-label>
           <input matInput autocomplete="on" formControlName="password" [type]="hidePassword ? 'password' : 'text'" [pattern]="patternPassword">
           <mat-error *ngIf="form.controls['password'].hasError('required')">
             Saisissez un mot de passe.
@@ -48,8 +48,8 @@
       <div class="form-group">
         <mat-form-field style="width: 100%;">
 
-          <mat-label>Confirm Password</mat-label>
-          <input matInput autocomplete="on" formControlName="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'" [pattern]="patternPassword">  
+          <mat-label>Confirmer votre mot de passe</mat-label>
+          <input matInput autocomplete="on" formControlName="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'" [pattern]="patternPassword">
           <mat-error *ngIf="form.controls['confirmPassword'].hasError('required')">
             Saisissez un mot de passe.
           </mat-error>
@@ -62,10 +62,10 @@
             </button>
         </mat-form-field>
       </div>
-      <button type="button" class="btn btn-primary" (click)="Signup()">Sign-up</button>
+      <button mat-raised-button color="primary" class="btn btn-primary" (click)="Signup()">S'inscrire</button>
       <div style="display: flex; margin-top: 12px;">
         <div>
-          <p> Vous avez déjà un compte ? <a [routerLink]="['/login']">Connectez vous</a></p>
+          <p> Vous avez déjà un compte ? <a [routerLink]="['/login']">Connectez-vous</a></p>
         </div>
       </div>
     </form>

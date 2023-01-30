@@ -4,7 +4,7 @@
     align-items: center;
     height: 80%;
   }
-  
+
   .login-form {
     width: 400px;
     padding: 2rem;
@@ -12,29 +12,29 @@
     border-radius: 1rem;
     box-shadow: 0 0 10px #666;
   }
-  
+
   .form-title {
     text-align: center;
     margin-bottom: 2rem;
   }
-  
+
   .form-group {
     margin-bottom: 1rem;
   }
-  
+
   .form-control {
     width: 95.5%;
     padding: 0.5rem;
     border-radius: 0.25rem;
     border: 1px solid #ccc;
   }
-  
+
   .btn {
     width: 100%;
     margin-top: 1rem;
     background-color: rgb(63, 81, 181);
     border-radius: 10px;
-    border: 0px;
+    border: 0;
     padding-top: 10px;
     padding-bottom: 10px;
     cursor: pointer;
@@ -45,7 +45,7 @@
     margin-top: 1rem;
     background-color: rgb(75, 98, 228);
     border-radius: 10px;
-    border: 0px;
+    border: 0;
     padding-top: 10px;
     padding-bottom: 10px;
     cursor: pointer;

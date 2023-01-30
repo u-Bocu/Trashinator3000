@@ -21,10 +21,14 @@
   flex : 1
 }
 
-.avatar 
+.avatar
 {
-  width: 50px; 
-  cursor: pointer; 
-  display: flex; 
+  width: 50px;
+  cursor: pointer;
+  display: flex;
   justify-content: center;
+}
+
+.points {
+  margin-right: 5px;
 }

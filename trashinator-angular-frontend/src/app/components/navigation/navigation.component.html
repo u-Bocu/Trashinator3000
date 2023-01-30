@@ -22,11 +22,16 @@
         (click)="drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Trashinator</span>
+      <span *ngIf="!isLogged">Trashinator</span>
+      <span *ngIf="isLogged">Trashinator - {{username}}</span>
       <div class="spacer"></div>
-      <a routerLink="login">
+      <a routerLink="login" *ngIf="!isLogged">
         <img src="../../../assets/Logo_connect.png" alt="Avatar" class="avatar">
       </a>
+      <div class="points" *ngIf="isLogged">0 Points</div>
+      <div *ngIf="isLogged" (click)="disconnect()">
+        <img src="../../../assets/Logo_connect.png" alt="Avatar" class="avatar">
+      </div>
     </mat-toolbar>
     <!-- Différentes pages avec le routing -->
     <router-outlet></router-outlet>

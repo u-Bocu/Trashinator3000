@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Md5} from 'ts-md5';
-import { FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
-import { ToastrService  } from 'ngx-toastr';
+import {FormBuilder, Validators} from '@angular/forms';
+import {AuthService} from 'src/app/services/auth.service';
+import {ToastrService} from 'ngx-toastr';
+import {LocalStorageService} from "../../services/local-storage.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -11,48 +13,45 @@ import { ToastrService  } from 'ngx-toastr';
 })
 export class LoginComponent {
 
-hidePassword = true;
-md5HashedPassword : string = "";
-isValid : boolean = false;
+  hidePassword = true;
+  md5HashedPassword: string = "";
+  isValid: boolean = false;
 
-form = this.fb.group({
-  username : ['', Validators.required],
-  password : ['', Validators.required]
-})
+  form = this.fb.group({
+    username: ['', Validators.required],
+    password: ['', Validators.required]
+  })
 
-constructor(
-  private fb : FormBuilder,
-  private authService: AuthService,
-  private toastr: ToastrService,
-) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private toastr: ToastrService,
+    private localStorageService: LocalStorageService,
+    private router: Router
+  ) {
+  }
 
-Login(): void
-{
+  public login(): void {
+    if (this.form.value.password != "" && this.form.value.username) {
+      this.md5HashedPassword = Md5.hashStr(this.form.value.password!);
 
-  if(this.form.value.password != "" && this.form.value.username)
-  {
-
-    this.md5HashedPassword = Md5.hashStr(this.form.value.password!);
-
-    this.authService.Login(this.form.value.username!, this.md5HashedPassword)
-      .subscribe(response => {
-          console.log(response.success);    
-
+      this.authService.Login(this.form.value.username!, this.md5HashedPassword)
+        .subscribe(response => {
           this.isValid = response.success
 
-          if(this.isValid == false)
-          {
+          if (!this.isValid) {
             this.toastr.error('Identifiant ou mot de passe invalide', 'Erreur', {
               positionClass: 'test'
             });
-          }
-          else if(this.isValid == true)
-          {
-            this.toastr.success('Bienvenue username', 'Succès', {
+            this.localStorageService.deleteData();
+          } else {
+            this.toastr.success('Bienvenue ' + this.form.value.username!, 'Succès', {
               positionClass: 'test'
             });
+            this.localStorageService.saveData(this.form.value.username!);
+            this.router.navigate(['/']).then(() => window.location.reload());
           }
-      });
+        });
     }
   }
 }
