@@ -1,17 +1,16 @@
-from flask import Blueprint, request, json
-from database import add_user_to_db 
+from flask import Blueprint, request
+from database import add_user_to_db
 from database import check_user_password_in_db
 from database import check_user_mail_in_db
 from database import generate_token
 from database import add_Token_to_db
-from database import check_token_validity
 from database import update_password
 
-import threading
 import smtplib
 from email.message import EmailMessage
 
 auth = Blueprint('auth', __name__)
+
 
 # On a POST request, adds the user to database.
 @auth.route("/sign-up", methods=['POST'])
@@ -21,67 +20,70 @@ def signup():
     err = add_user_to_db(userdata.get('username'), userdata.get('password'), userdata.get('mailAdress'))
     message = "Le nom d'utilisateur n'est plus disponible"
 
-    if err: #True mean no error
+    if err:  # True mean no error
         message = "Login ajouté avec succès"
-    
+
     res = {
         "success": err,
         "message": message,
         "data": None
     }
 
-    return res;
+    return res
 
 
 @auth.route("/login", methods=['POST'])
 def login():
     userdata = request.get_json()
-    
+
     err = check_user_password_in_db(userdata.get('username'), userdata.get('password'))
     message = "Vérifiez votre identifiant ou votre mot de passe"
 
     if err:
         message = "Connexion réussis avec Succès"
-    
+
     res = {
         "success": err,
         "message": message,
         "data": None
     }
 
-    return res;
-    
+    return res
+
+
 @auth.route("/forgotpassword", methods=['POST'])
-def sendMail():
-    
+def send_mail():
     userdata = request.get_json()
 
     err = check_user_mail_in_db(userdata.get('mailAdress'))
-    message = "L'adresse mail n'existe pas dans la base de donnée"
+    message = "L'adresse mail n'existe pas dans la base de données"
 
     if err:
-        message = "Un mail contenant un lien re réinitialisation de votre mot de passe à été envoyé à votre adresse mail"
-   
+        message = "Un mail contenant un lien re réinitialisation de votre mot de passe à été envoyé à votre adresse " \
+                  "mail "
+
     res = {
-       "success": err,
-       "message": message,
-       "data": None
+        "success": err,
+        "message": message,
+        "data": None
     }
 
     token = generate_token()
 
-    if(err):
+    if (err):
         to_email = userdata.get('mailAdress')
         from_email = 'testsmtpapitse@gmail.com'
         password = 'brlr ahxy luec kyby'
         subject = 'Trashinator : Demande de réinitialisation de votre mot de passe'
 
         msg = EmailMessage()
-        msg.set_content('\nCliquez sur ce lien pour reset votre mot de passe : ' + "http://127.0.0.1:4200/reset-password?token=" + token,  subtype="plain", charset='us-ascii')
+        msg.set_content(
+            '\nCliquez sur ce lien pour reset votre mot de passe : ' + "http://localhost:4200/reset-password?token=" + token,
+            subtype="plain", charset='us-ascii')
         msg['Subject'] = subject
         msg['From'] = from_email
         msg['To'] = to_email
-            
+
         try:
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
@@ -92,29 +94,27 @@ def sendMail():
             print('Error sending email')
         server.quit()
 
-        #Need to add the token into the database
+        # Need to add the token into the database
         add_Token_to_db(to_email, token)
 
-    return res;
+    return res
+
 
 @auth.route("/resetpassword", methods=['POST'])
-def resetPassword():
+def reset_password():
     userdata = request.get_json()
-    err =  update_password(userdata.get('token'), userdata.get('password'))
+    err = update_password(userdata.get('token'), userdata.get('password'))
 
     message = "Impossible de modifier le mot de passe car le token a expiré"
 
-    #If error
+    # If error
     if err:
         message = " Votre mot de passe a été modifié"
-       
 
     res = {
-
-    "success": err,
-    "message": message,
-    "data": None
-
+        "success": err,
+        "message": message,
+        "data": None
     }
 
     return res

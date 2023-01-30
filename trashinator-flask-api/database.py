@@ -19,6 +19,7 @@ def get_db():
 
     return db
 
+
 def doesUserExist(username):
     err = True
 
@@ -29,7 +30,7 @@ def doesUserExist(username):
         sql_request = f''' SELECT username FROM user WHERE  username = '{username}' '''
         cursor.execute(sql_request)
 
-        if(cursor.fetchone() == None):
+        if (cursor.fetchone() == None):
             err = False
 
     except sqlite3.Error as e:
@@ -37,33 +38,34 @@ def doesUserExist(username):
 
     return err
 
+
 # Tries to add a user to DB and returns 0 if succeeded, 1 otherwise.
 def add_user_to_db(username, password, mailAdress):
-
     err = False
     if not doesUserExist(username):
         try:
             db = get_db()
             cursor = db.cursor()
 
-            sql_request = f''' INSERT INTO user (username, password, mailAdress) 
-                        VALUES ('{username}', '{password}', '{mailAdress}');'''
+            sql_request = f''' INSERT INTO user (username, password, mailAdress, score) 
+                        VALUES ('{username}', '{password}', '{mailAdress}', 0);'''
 
             cursor.execute(sql_request)
             db.commit()
-            
-            #Fill tokens table with empty values
+
+            # Fill tokens table with empty values
             sql_request = f''' INSERT INTO tokens (tokens, timestamp) 
             VALUES ("", "");'''
             cursor.execute(sql_request)
             db.commit()
-            
+
             err = True
 
         except sqlite3.Error as e:
             print(e)
 
     return err
+
 
 def check_user_password_in_db(username, password):
     err = False
@@ -84,6 +86,7 @@ def check_user_password_in_db(username, password):
 
     return err
 
+
 def check_user_mail_in_db(mail):
     err = False
 
@@ -93,8 +96,8 @@ def check_user_mail_in_db(mail):
 
         sql_request = f''' SELECT COUNT(mailAdress) FROM user WHERE mailAdress='{mail}'  '''
         cursor.execute(sql_request)
-        
-        if(cursor.fetchone()[0] != 0):
+
+        if (cursor.fetchone()[0] != 0):
             err = True
 
     except sqlite3.Error as e:
@@ -119,14 +122,16 @@ def add_scan_to_db(user_id, file, confidence, prediction):
     except:
         err = False
 
-    return err 
+    return err
+
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
 
 def update_password(token, password):
     err = False
 
-    if(check_token_validity(token)): 
+    if (check_token_validity(token)):
         try:
             db = get_db()
             cursor = db.cursor()
@@ -134,7 +139,7 @@ def update_password(token, password):
             cursor.execute(sql_request)
             db.commit()
 
-            #delete used tokens
+            # delete used tokens
             sql_request = f''' UPDATE tokens SET timestamp = '', tokens = '' WHERE tokens = '{token}' '''
             cursor.execute(sql_request)
             db.commit()
@@ -145,6 +150,7 @@ def update_password(token, password):
 
     return err
 
+
 def check_token_validity(token):
     err = False
     try:
@@ -153,7 +159,7 @@ def check_token_validity(token):
         sql_request = f''' SELECT tokens_id FROM tokens WHERE tokens = '{token}' '''
         cursor.execute(sql_request)
 
-        if(cursor.fetchone()) == None:
+        if (cursor.fetchone()) == None:
             err = False
         else:
             err = True
@@ -163,11 +169,14 @@ def check_token_validity(token):
 
     return err
 
+
 def generate_token():
-    return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(128))
+    return ''.join(
+        random.SystemRandom().choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in
+        range(128))
 
 
-def add_Token_to_db(mailAdress,token):
+def add_Token_to_db(mailAdress, token):
     err = False
     try:
         timestamp = datetime.datetime.now()
@@ -178,14 +187,12 @@ def add_Token_to_db(mailAdress,token):
         cursor.execute(sql_request)
         cursor.execute('COMMIT;')
         db.commit()
-     
+
         err = True
     except sqlite3.Error as e:
         print(e)
 
     return err
-
-
 
 
 def delete_old_tokens():
@@ -202,26 +209,11 @@ def delete_old_tokens():
             cursor.close()
 
         except sqlite3.Error as e:
-            print(e)     
-            #sleep for 5 minutes  
+            print(e)
+            # sleep for 5 minutes
 
         time.sleep(60)
-       
+
+
 thread = threading.Thread(target=delete_old_tokens, daemon=True)
 thread.start()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
