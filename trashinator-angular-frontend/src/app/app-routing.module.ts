@@ -8,6 +8,7 @@ import { StatisticDashboardComponent } from "./components/statistic-dashboard/st
 import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import {EditoComponent} from "./components/edito/edito.component";
+import { ShopComponent } from './components/shop/shop.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgetPasswordComponent},
   { path: 'reset-password', component: ChangePasswordComponent},
   { path: 'edito', component: EditoComponent },
+  { path: 'boutique', component: ShopComponent},
   { path: '**', component: EditoComponent },
 ];
 
