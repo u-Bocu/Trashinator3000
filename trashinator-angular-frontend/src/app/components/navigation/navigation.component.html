@@ -28,7 +28,7 @@
       <a routerLink="login" *ngIf="!isLogged">
         <img src="../../../assets/Logo_connect.png" alt="Avatar" class="avatar">
       </a>
-      <div class="points" *ngIf="isLogged">0 Points</div>
+      <div class="points" *ngIf="isLogged">{{points}} Points</div>
       <div *ngIf="isLogged" (click)="disconnect()">
         <img src="../../../assets/Logo_connect.png" alt="Avatar" class="avatar">
       </div>

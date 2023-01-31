@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import {ScansService} from "../../services/scans.service";
+import { ScansService } from "../../services/scans.service";
+import { LocalStorageService } from "../../services/local-storage.service";
 
 @Component({
   selector: 'app-waste-form',
@@ -19,21 +20,22 @@ export class WasteFormComponent {
 
   constructor(
     private fb: FormBuilder,
-    private scansService: ScansService
+    private scansService: ScansService,
+    private localStorageService: LocalStorageService
   ) {}
 
-  
+
   /**
    * on file drop handler
    */
-  onFileDropped($event: any[]) {
+  onFileDropped($event: any[]): void {
     this.prepareFilesList($event);
   }
 
   /**
    * handle file from browsing
    */
-  fileBrowseHandler(files: any[]) {
+  fileBrowseHandler(files: any[]): void {
     this.prepareFilesList(files);
   }
 
@@ -41,7 +43,7 @@ export class WasteFormComponent {
    * Delete file from files list
    * @param index (File index)
    */
-  deleteFile(index: number) {
+  deleteFile(index: number): void {
     this.files.splice(index, 1);
     this.imageArray.splice(index,1);
     this.dataArray.splice(index,1);
@@ -52,7 +54,7 @@ export class WasteFormComponent {
   /**
    * Simulate the upload process
    */
-  uploadFilesSimulator(index: number) {
+  uploadFilesSimulator(index: number): void {
     setTimeout(() => {
       if (index === this.files.length) {
         return;
@@ -73,11 +75,8 @@ export class WasteFormComponent {
    * Convert Files list to normal array list
    * @param files (Files List)
    */
-  prepareFilesList(files: Array<any>) {
-    
-    //let i = 0
+  prepareFilesList(files: Array<any>): void {
     for (const item of files) {
-
       //Convert image to base64
       const reader = new FileReader();
       reader.readAsDataURL(item);
@@ -86,12 +85,10 @@ export class WasteFormComponent {
 
       item.progress = 0;
       item.image = reader.result
-      this.files.push(item)      
-    }  
-};
-
+      this.files.push(item)
+    }
+  }
     this.uploadFilesSimulator(0);
-   
   }
 
   /**
@@ -99,7 +96,7 @@ export class WasteFormComponent {
    * @param bytes (File size in bytes)
    * @param decimals (Decimals point)
    */
-  formatBytes(bytes: number, decimals?: number) {
+  formatBytes(bytes: number, decimals?: number): string {
     if (bytes === 0) {
       return '0 Bytes';
     }
@@ -110,36 +107,35 @@ export class WasteFormComponent {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 
-  onSubmit(): void 
-  {   
-      this.scansService.postScan(this.imageArray, "")
-        .subscribe(response => {
+  onSubmit(): void {
+    this.scansService.postScan(this.imageArray, this.localStorageService.getData('user_id'))
+      .subscribe(response => {
 
-          this.dataArray = []
-          this.confidenceArray = []
-          this.typeOfWasteArray = []
-         
-          for(let i =0; i < response.length; i++)
-          {
-            this.dataArray.push(JSON.parse(response[i]).data.output)
-            this.confidenceArray.push(JSON.parse(response[i]).data.confidence + "%")
-          }
+        this.dataArray = []
+        this.confidenceArray = []
+        this.typeOfWasteArray = []
 
-          for(let i = 0; i < this.dataArray.length;i++)
-          {
-            if(this.dataArray.at(i) == "Plastic" || this.dataArray.at(i) == "Paper" || this.dataArray.at(i) == "G&M")
-            {
-              this.typeOfWasteArray.push("Recyclable")
-            }
-            else if(this.dataArray.at(i) == "Organic")
-            {
-              this.typeOfWasteArray.push("Organique")
-            }
-            else if(this.dataArray.at(i) == "Other")
-            {
-              this.typeOfWasteArray.push("Non-recyclable")
-            }
+        for(let i =0; i < response.length; i++)
+        {
+          this.dataArray.push(JSON.parse(response[i]).data.output)
+          this.confidenceArray.push(JSON.parse(response[i]).data.confidence + "%")
         }
-        }); 
+
+        for(let i = 0; i < this.dataArray.length;i++)
+        {
+          if(this.dataArray.at(i) == "Plastic" || this.dataArray.at(i) == "Paper" || this.dataArray.at(i) == "G&M")
+          {
+            this.typeOfWasteArray.push("Recyclable")
+          }
+          else if(this.dataArray.at(i) == "Organic")
+          {
+            this.typeOfWasteArray.push("Organique")
+          }
+          else if(this.dataArray.at(i) == "Other")
+          {
+            this.typeOfWasteArray.push("Non-recyclable")
+          }
+      }
+    });
   }
 }

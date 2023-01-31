@@ -106,11 +106,29 @@ def check_user_mail_in_db(mail):
     return err
 
 
+def get_user_with_username(username):
+    if does_user_exist(username):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+
+            sql_request = f''' SELECT user_id, username FROM user WHERE username='{username}'  '''
+
+            cursor.execute(sql_request)
+            user = cursor.fetchone()
+
+        except sqlite3.Error as e:
+            print(e)
+
+    return user
+
+
 # Tries to add a scan to DB and returns 0 if succeeded, 1 otherwise.
 def add_scan_to_db(user_id, file, confidence, prediction):
     err = True
 
     try:
+        # Insert scan
         db = get_db()
         cursor = db.cursor()
 
@@ -118,11 +136,36 @@ def add_scan_to_db(user_id, file, confidence, prediction):
                     VALUES ('{user_id}', '{file}','{confidence}', '{prediction}' ); '''
 
         cursor.execute(sql_request)
-        db.commit();
+        db.commit()
+
+        # Add point to user
+        db = get_db()
+        cursor = db.cursor()
+
+        sql_request = f''' UPDATE user SET score = score+1 WHERE user_id ='{user_id}'; '''
+
+        cursor.execute(sql_request)
+        db.commit()
     except:
         err = False
 
     return err
+
+
+def get_user_points(user_id):
+    try:
+        db = get_db()
+        cursor = db.cursor()
+
+        sql_request = f''' SELECT score FROM user WHERE user_id='{user_id}';  '''
+
+        cursor.execute(sql_request)
+        return cursor.fetchone()[0]
+
+    except sqlite3.Error as e:
+        print(e)
+
+
 
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''

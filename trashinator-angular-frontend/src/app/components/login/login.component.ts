@@ -48,7 +48,8 @@ export class LoginComponent {
             this.toastr.success('Bienvenue ' + this.form.value.username!, 'Succès', {
               positionClass: 'test'
             });
-            this.localStorageService.saveData(this.form.value.username!);
+            this.localStorageService.saveData('user_id', response.data[0]);
+            this.localStorageService.saveData('username', response.data[1]);
             this.router.navigate(['/dashboard']).then(() => window.location.reload());
           }
         });
