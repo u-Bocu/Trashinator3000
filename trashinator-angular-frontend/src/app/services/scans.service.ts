@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import {catchError, map, Observable, throwError} from "rxjs";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -19,28 +19,35 @@ export class ScansService {
       this.rootURL + '/scans',
       {filePath: filePath, user_id},
       {headers: this.headers},
-    );//.pipe(map(res => res), catchError(err => throwError(err)) ) not needed httpclient already handle that
+    );
   }
 
   public getScans(lastWeek: string = ''): Observable<any> {
     return this.http.get(
       this.rootURL + '/scans?last_week=' + lastWeek,
       { headers: this.headers }
-    ).pipe( map(res => res), catchError(err => throwError(err)) );
+    );
   }
 
   public getNbScansByPrediction(): Observable<any> {
     return this.http.get(
       this.rootURL + '/scans/predictions/count',
       { headers: this.headers }
-    ).pipe( map(res => res), catchError(err => throwError(err)) );
+    );
   }
 
   public getNbScansByDay(lastWeek: string = ''): Observable<any> {
     return this.http.get(
       this.rootURL + '/scans/count?last_week=' + lastWeek,
       { headers: this.headers }
-    ).pipe( map(res => res), catchError(err => throwError(err)) );
-    //return [120, 180, 150, 80, 70, 110, 130];
+    );
+  }
+
+  public getPoints(user_id: number): Observable<any> {
+    return this.http.post(
+      this.rootURL + '/scans/points',
+      { user_id },
+      { headers: this.headers }
+    );
   }
 }

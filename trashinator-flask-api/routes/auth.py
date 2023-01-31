@@ -5,6 +5,7 @@ from database import check_user_mail_in_db
 from database import generate_token
 from database import add_token_to_db
 from database import update_password
+from database import get_user_with_username
 
 import smtplib
 from email.message import EmailMessage
@@ -45,7 +46,7 @@ def login():
     res = {
         "success": err,
         "message": message,
-        "data": None
+        "data": get_user_with_username(userdata.get('username'))
     }
 
     return res
