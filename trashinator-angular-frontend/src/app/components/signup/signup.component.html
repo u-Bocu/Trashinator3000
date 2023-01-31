@@ -18,11 +18,11 @@
       <div class="form-group">
         <mat-form-field style="width: 100%;">
           <mat-label>Adresse mail</mat-label>
-          <input matInput autocomplete="on" formControlName="mailAdress" [pattern]="patternmailAdress">
-          <mat-error *ngIf="form.controls['mailAdress'].hasError('required')">
+          <input matInput autocomplete="on" formControlName="mailAddress" [pattern]="patternmailAddress">
+          <mat-error *ngIf="form.controls['mailAddress'].hasError('required')">
             Veuillez saisir une adresse email.
           </mat-error>
-          <mat-error *ngIf="form.controls['mailAdress'].hasError('pattern')">
+          <mat-error *ngIf="form.controls['mailAddress'].hasError('pattern')">
             Veuillez saisir une adresse email valide.
           </mat-error>
         </mat-form-field>
