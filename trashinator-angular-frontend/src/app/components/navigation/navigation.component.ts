@@ -4,8 +4,9 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { LocalStorageService } from "../../services/local-storage.service";
 import { ToastrService } from "ngx-toastr";
-import {Router} from "@angular/router";
-import {ScansService} from "../../services/scans.service";
+import { Router } from "@angular/router";
+import { ScansService } from "../../services/scans.service";
+import { EventService } from "../../services/event.service";
 
 @Component({
   selector: 'app-navigation',
@@ -29,11 +30,10 @@ export class NavigationComponent {
     private localStorageService: LocalStorageService,
     private scanServiceService: ScansService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private eventService: EventService
     ) {
-    this.isLogged = this.localStorageService.isLogged();
-    this.username = this.localStorageService.getData('username');
-    this.getPoints();
+    this.refresh();
   }
 
   public disconnect(): void {
@@ -41,14 +41,20 @@ export class NavigationComponent {
     this.toastr.success('Déconnexion réussie', 'Succès', {
       positionClass: 'test'
     });
-    this.router.navigate(['/dashboard']).then(() => window.location.reload());
+    this.router.navigateByUrl('/dashboard').then(() => this.eventService.emitRefreshNavigationEvent());
   }
 
   public getPoints(): void {
-    this.scanServiceService.getPoints(1).subscribe(response => {
-      console.log(response);
+    this.scanServiceService.getPoints(parseInt(this.localStorageService.getData('user_id'))).subscribe(response => {
       this.points = response.data;
     });
   }
 
+  public refresh(): void {
+    this.eventService.getRefreshNavigationEvent().subscribe(() => {
+      this.isLogged = this.localStorageService.isLogged();
+      this.username = this.localStorageService.getData('username');
+      this.getPoints();
+    });
+  }
 }

@@ -67,7 +67,7 @@ signup(): void
               this.toastr.success(response.message, 'Succès', {
                 positionClass: 'test'
               });
-            this.router.navigate(['/login']);
+            this.router.navigate(['/login']).then(r => r);
             }
           }
       })
