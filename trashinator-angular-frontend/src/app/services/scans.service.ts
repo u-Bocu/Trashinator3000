@@ -1,53 +1,49 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { environment } from "../environnement";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ScansService {
 
-  rootURL = 'http://localhost:8080/api';
-  headers = new HttpHeaders()
-    .set('Content-Type', 'application/json')
-    .set('Access-Control-Allow-Origin', '*');
-
   constructor(private http: HttpClient) { }
 
   public postScan(filePath: string[] | ArrayBuffer[] | null, user_id : string): Observable<any> {
     return this.http.post(
-      this.rootURL + '/scans',
+      environment.API_URL + '/scans',
       {filePath: filePath, user_id},
-      {headers: this.headers},
+      {headers: environment.HEADERS},
     );
   }
 
   public getScans(lastWeek: string = ''): Observable<any> {
     return this.http.get(
-      this.rootURL + '/scans?last_week=' + lastWeek,
-      { headers: this.headers }
+      environment.API_URL + '/scans?last_week=' + lastWeek,
+      { headers: environment.HEADERS }
     );
   }
 
   public getNbScansByPrediction(): Observable<any> {
     return this.http.get(
-      this.rootURL + '/scans/predictions/count',
-      { headers: this.headers }
+      environment.API_URL + '/scans/predictions/count',
+      { headers: environment.HEADERS }
     );
   }
 
   public getNbScansByDay(lastWeek: string = ''): Observable<any> {
     return this.http.get(
-      this.rootURL + '/scans/count?last_week=' + lastWeek,
-      { headers: this.headers }
+      environment.API_URL + '/scans/count?last_week=' + lastWeek,
+      { headers: environment.HEADERS }
     );
   }
 
   public getPoints(user_id: number): Observable<any> {
     return this.http.post(
-      this.rootURL + '/scans/points',
+      environment.API_URL + '/scans/points',
       { user_id },
-      { headers: this.headers }
+      { headers: environment.HEADERS }
     );
   }
 }
