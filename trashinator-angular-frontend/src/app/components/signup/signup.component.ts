@@ -28,7 +28,7 @@ form = this.fb.group({
   mailAdress : ['', Validators.required],
   password : ['', Validators.required],
   confirmPassword : ['', Validators.required]});
- 
+
 
 constructor(
   private fb : FormBuilder,
@@ -38,14 +38,14 @@ constructor(
 ) {}
 
 
-Signup(): void
-{  
+signup(): void
+{
   if(this.form.value.username != "" && this.form.value.password != "" && this.form.value.confirmPassword != "")
   {
       this.md5HashedPassword = Md5.hashStr(this.form.value.password!);
-      this.authService.Signup(this.form.value.username!, this.md5HashedPassword, this.form.value.mailAdress!)
+      this.authService.signup(this.form.value.username!, this.md5HashedPassword, this.form.value.mailAdress!)
 
-      .subscribe(response => 
+      .subscribe(response =>
       {
           this.isValid = response.success
 
@@ -57,15 +57,13 @@ Signup(): void
           }
           else
           {
-            if(this.isValid == false)
+            if(!this.isValid)
             {
               this.toastr.error(response.message, 'Erreur', {
                 positionClass: 'test'
               });
-              this.form.value.password = ""  
-            }
-            else if(this.isValid == true)
-            {
+              this.form.value.password = ""
+            } else {
               this.toastr.success(response.message, 'Succès', {
                 positionClass: 'test'
               });

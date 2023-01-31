@@ -15,7 +15,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   // TO MOVE TO AUTH.services.ts
-  public Signup(username : string, password : string, mailAddress : string) : Observable<any> {
+  public signup(username : string, password : string, mailAddress : string) : Observable<any> {
     return this.http.post(
       this.rootURL + '/auth/sign-up',
       { username : username , password : password, mail_address : mailAddress},
@@ -23,7 +23,7 @@ export class AuthService {
     );
   }
 
-  public Login(username : string, password : string) : Observable<any>
+  public login(username : string, password : string) : Observable<any>
   {
     return this.http.post(
       this.rootURL + '/auth/login',

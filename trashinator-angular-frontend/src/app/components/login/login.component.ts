@@ -35,7 +35,7 @@ export class LoginComponent {
     if (this.form.value.password != "" && this.form.value.username) {
       this.md5HashedPassword = Md5.hashStr(this.form.value.password!);
 
-      this.authService.Login(this.form.value.username!, this.md5HashedPassword)
+      this.authService.login(this.form.value.username!, this.md5HashedPassword)
         .subscribe(response => {
           this.isValid = response.success
 
