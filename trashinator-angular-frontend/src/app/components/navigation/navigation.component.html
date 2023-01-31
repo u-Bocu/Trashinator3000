@@ -6,11 +6,11 @@
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="edito">Accueil</a>
-      <a mat-list-item routerLink="dashboard">Dashboard</a>
-      <a mat-list-item routerLink="waste-form">Scanner ses déchets</a>
-      <a mat-list-item routerLink="statistic-dashboard">Statistiques</a>
-      <a mat-list-item routerLink="boutique">Boutique</a>
+      <a mat-list-item routerLink="edito"><mat-icon fontIcon="home" class="menu-icon"></mat-icon>Accueil</a>
+      <a mat-list-item routerLink="dashboard"><mat-icon fontIcon="space_dashboard" class="menu-icon"></mat-icon>Dashboard</a>
+      <a mat-list-item routerLink="waste-form"><mat-icon fontIcon="document_scanner" class="menu-icon"></mat-icon>Scanner</a>
+      <a mat-list-item routerLink="statistic-dashboard"><mat-icon fontIcon="query_stats" class="menu-icon"></mat-icon>Statistiques</a>
+      <a mat-list-item routerLink="boutique"><mat-icon fontIcon="redeem" class="menu-icon"></mat-icon>Boutique</a>
     </mat-nav-list>
   </mat-sidenav>
 
@@ -27,11 +27,11 @@
       <span *ngIf="isLogged">Trashinator - {{username}}</span>
       <div class="spacer"></div>
       <a routerLink="login" *ngIf="!isLogged">
-        <img src="../../../assets/Logo_connect.png" alt="Avatar" class="avatar">
+        <mat-icon fontIcon="login" class="icon"></mat-icon>
       </a>
       <div class="points" *ngIf="isLogged">{{points}} Points</div>
       <div *ngIf="isLogged" (click)="disconnect()">
-        <img src="../../../assets/Logo_connect.png" alt="Avatar" class="avatar">
+        <mat-icon fontIcon="logout" class="icon"></mat-icon>
       </div>
     </mat-toolbar>
     <!-- Différentes pages avec le routing -->
