@@ -12,6 +12,9 @@ mat-card-title {
 
 mat-card-content {
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 mat-card-actions {
@@ -22,4 +25,8 @@ mat-card-actions {
 button {
   display: block;
   margin: 30px auto;
+}
+
+.logo {
+  width: 15%;
 }
