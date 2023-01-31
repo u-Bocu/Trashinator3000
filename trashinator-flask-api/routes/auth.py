@@ -17,7 +17,7 @@ auth = Blueprint('auth', __name__)
 def signup():
     userdata = request.get_json()
 
-    err = add_user_to_db(userdata.get('username'), userdata.get('password'), userdata.get('mailAdress'))
+    err = add_user_to_db(userdata.get('username'), userdata.get('password'), userdata.get('mail_address'))
     message = "Le nom d'utilisateur n'est plus disponible"
 
     if err:  # True mean no error
@@ -55,7 +55,7 @@ def login():
 def send_mail():
     userdata = request.get_json()
 
-    err = check_user_mail_in_db(userdata.get('mailAdress'))
+    err = check_user_mail_in_db(userdata.get('mail_address'))
     message = "L'adresse mail n'existe pas dans la base de données"
 
     if err:
@@ -71,7 +71,7 @@ def send_mail():
     token = generate_token()
 
     if (err):
-        to_email = userdata.get('mailAdress')
+        to_email = userdata.get('mail_address')
         from_email = 'testsmtpapitse@gmail.com'
         password = 'brlr ahxy luec kyby'
         subject = 'Trashinator : Demande de réinitialisation de votre mot de passe'

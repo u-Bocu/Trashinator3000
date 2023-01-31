@@ -6,7 +6,9 @@ DROP TABLE IF EXISTS scan;
 CREATE TABLE IF NOT EXISTS user (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    mail_address TEXT NOT NULL,
+    score INTEGER DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS scan (

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import {catchError, map, Observable, throwError} from "rxjs";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -15,15 +15,15 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   // TO MOVE TO AUTH.services.ts
-  public Signup(username : string, password : string, mailAdress : string) : Observable<any> {
+  public Signup(username : string, password : string, mailAddress : string) : Observable<any> {
     return this.http.post(
       this.rootURL + '/auth/sign-up',
-      { username : username , password : password, mailAdress : mailAdress},
+      { username : username , password : password, mail_address : mailAddress},
       {headers: this.headers}
     );
   }
 
-  public Login(username : string, password : string) : Observable<any> 
+  public Login(username : string, password : string) : Observable<any>
   {
     return this.http.post(
       this.rootURL + '/auth/login',
@@ -32,11 +32,11 @@ export class AuthService {
     );
   }
 
-  public forgotPassword(mailAdress : string) : Observable<any>
+  public forgotPassword(mailAddress : string) : Observable<any>
   {
     return this.http.post(
       this.rootURL + '/auth/forgotpassword',
-      { mailAdress : mailAdress },
+      { mail_address : mailAddress },
       {headers : this.headers}
     );
   }

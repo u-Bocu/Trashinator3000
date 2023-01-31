@@ -40,15 +40,15 @@ def does_user_exist(username):
 
 
 # Tries to add a user to DB and returns 0 if succeeded, 1 otherwise.
-def add_user_to_db(username, password, mailAdress):
+def add_user_to_db(username, password, mail_address):
     err = False
     if not does_user_exist(username):
         try:
             db = get_db()
             cursor = db.cursor()
 
-            sql_request = f''' INSERT INTO user (username, password, mailAdress, score) 
-                        VALUES ('{username}', '{password}', '{mailAdress}', 0);'''
+            sql_request = f''' INSERT INTO user (username, password, mail_address, score) 
+                        VALUES ('{username}', '{password}', '{mail_address}', 0);'''
 
             cursor.execute(sql_request)
             db.commit()
@@ -94,7 +94,7 @@ def check_user_mail_in_db(mail):
         db = get_db()
         cursor = db.cursor()
 
-        sql_request = f''' SELECT COUNT(mailAdress) FROM user WHERE mailAdress='{mail}'  '''
+        sql_request = f''' SELECT COUNT(mail_address) FROM user WHERE mail_address='{mail}'  '''
         cursor.execute(sql_request)
 
         if cursor.fetchone()[0] != 0:
@@ -135,7 +135,8 @@ def update_password(token, password):
         try:
             db = get_db()
             cursor = db.cursor()
-            sql_request = f''' UPDATE user SET password = '{password}' WHERE user_id = (SELECT tokens_id FROM tokens WHERE tokens = '{token}'); '''
+            sql_request = f''' UPDATE user SET password = '{password}' WHERE user_id = (SELECT tokens_id FROM tokens 
+                        WHERE tokens = '{token}'); '''
             cursor.execute(sql_request)
             db.commit()
 
@@ -176,14 +177,15 @@ def generate_token():
         range(128))
 
 
-def add_token_to_db(mailAdress, token):
+def add_token_to_db(mail_address, token):
     err = False
     try:
         timestamp = datetime.datetime.now()
         db = get_db()
         cursor = db.cursor()
         cursor.execute('BEGIN TRANSACTION;')
-        sql_request = f''' UPDATE tokens SET tokens = '{token}', timestamp = '{timestamp}' WHERE tokens_id = (SELECT user_id FROM user WHERE mailAdress = '{mailAdress}'); '''
+        sql_request = f''' UPDATE tokens SET tokens = '{token}', timestamp = '{timestamp}' WHERE tokens_id = (SELECT 
+                    user_id FROM user WHERE mail_address = '{mail_address}'); '''
         cursor.execute(sql_request)
         cursor.execute('COMMIT;')
         db.commit()
