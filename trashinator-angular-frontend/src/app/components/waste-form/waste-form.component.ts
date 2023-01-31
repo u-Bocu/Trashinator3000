@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ScansService } from "../../services/scans.service";
 import { LocalStorageService } from "../../services/local-storage.service";
+import {EventService} from "../../services/event.service";
 
 @Component({
   selector: 'app-waste-form',
@@ -21,7 +22,8 @@ export class WasteFormComponent {
   constructor(
     private fb: FormBuilder,
     private scansService: ScansService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private eventService: EventService
   ) {}
 
 
@@ -135,6 +137,7 @@ export class WasteFormComponent {
           {
             this.typeOfWasteArray.push("Non-recyclable")
           }
+          this.eventService.emitRefreshNavigationEvent();
       }
     });
   }
