@@ -1,7 +1,7 @@
 import os
 from flask import Blueprint, json, request
 from werkzeug.utils import secure_filename
-from database import add_scan_to_db, get_db
+from database import add_scan_to_db, get_db, get_user_points
 from model import get_trash
 import base64
 
@@ -20,10 +20,10 @@ def allowed_file(filename):
 def post_scan():
     maListe = []
     j_userdata = request.get_json()
-    user_id = j_userdata.get('user_id');
+    user_id = j_userdata.get('user_id')
 
     for i in range(len(j_userdata.get(
-            'filePath'))):  # The size of filepath contains the size of the array #need to reset the front after sending an image because it's stuck with the old images
+            'filePath'))):  # The size of filepath contains the size of the array need to reset the front after sending an image because it's stuck with the old images
         data_splitted = j_userdata.get('filePath')[i].split(',')[1]
         res = {
             "success": False,
@@ -162,4 +162,17 @@ def get_nb_scans_by_day():
             'count': count,
             'rows': rows
         }
+    }
+
+
+# Get user's score
+@scans.route("/points", methods=['POST'])
+def post_points():
+    j_userdata = request.get_json()
+    user_id = j_userdata.get('user_id')
+
+    return {
+        "success": True,
+        "message": "",
+        "data": get_user_points(user_id)
     }
