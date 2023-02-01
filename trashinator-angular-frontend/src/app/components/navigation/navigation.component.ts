@@ -41,7 +41,10 @@ export class NavigationComponent {
     this.toastr.success('Déconnexion réussie', 'Succès', {
       positionClass: 'test'
     });
-    this.router.navigateByUrl('/dashboard').then(() => this.eventService.emitRefreshNavigationEvent());
+    this.router.navigateByUrl('/dashboard').then(() => {
+      this.eventService.emitRefreshNavigationEvent();
+      this.eventService.emitRefreshDashboardEvent();
+    });
   }
 
   public getPoints(): void {

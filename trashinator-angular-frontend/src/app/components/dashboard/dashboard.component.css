@@ -43,3 +43,11 @@ mat-grid-tile:nth-child(5) mat-card {
   background: rgb(159,88,255);
   background: linear-gradient(145deg, rgba(159,88,255,1) 0%, rgb(243, 140, 221) 100%);
 }
+
+.total-clair {
+  color: #cccdcc;
+}
+
+.total-fonce {
+  color: #d8d9d8;
+}
