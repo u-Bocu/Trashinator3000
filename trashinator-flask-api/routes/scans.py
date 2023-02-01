@@ -124,6 +124,40 @@ def get_nb_scans_by_prediction():
     }
 
 
+# Get number of scans by prediction by user
+@scans.route("/predictions/count", methods=['POST'])
+def get_nb_scans_by_prediction_by_user():
+    j_userdata = request.get_json()
+    user_id = j_userdata.get('user_id')
+
+    success = True
+    message = "Nombre de scans par prédiction récupéré avec succès"
+    count = 0
+    rows = []
+
+    try:
+        db = get_db()
+        cursor = db.cursor()
+
+        sql_request = f'''SELECT prediction, count(*) FROM scan s WHERE user_id='{user_id}' GROUP BY s.prediction;'''
+
+        cursor.execute(sql_request)
+        rows = cursor.fetchall()
+        count = len(rows)
+    except:
+        success = False
+        message = "Erreur lors de la récupération du nombre de scans par prédiction"
+
+    return {
+        "success": success,
+        "message": message,
+        "data": {
+            'count': count,
+            'rows': rows
+        }
+    }
+
+
 # Get number of all scans by day or scans by day from last week
 @scans.route("/count", methods=['GET'])
 def get_nb_scans_by_day():
