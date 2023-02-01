@@ -25,6 +25,7 @@ export class NbScansChartComponent implements OnInit {
     this.isLogged = this.localStorageService.isLogged();
     this.eventService.getRefreshDashboardEvent().subscribe(() => {
       this.isLogged = this.localStorageService.isLogged();
+      this.loadChartOptions();
     });
   }
 
