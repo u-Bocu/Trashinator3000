@@ -6,7 +6,8 @@
   - [Quickstart](#quickstart)
   - [Scan trash](#scan-trash)
   - [Worldwide stats](#worldwide-stats)
-
+- [Credits](#credits)
+  - [Icons](#icons)
 
 
 ## What is Trashinator3000 ?
@@ -54,3 +55,15 @@ Once the image is completely uploaded, you can press the validate button to disp
 <div style="text-align: justify">
 You can also check the recycling stats per country in the "Statistiques" (Statistics) menu. 
 <div>
+
+<img src="img/tuto/compare.png" alt="scan"/>
+
+# Credits
+## Icons
+All icons used for the README file (available under the img folder) come from Flaticon:<br> 
+- <a href="https://www.flaticon.com/free-icons/trash-can" title="trash can icons">Trash can icons created by Rohim - Flaticon</a><br>
+- <a href="https://www.flaticon.com/free-icons/food-waste" title="food waste icons">Food waste icons created by surang - Flaticon</a><br>
+- <a href="https://www.flaticon.com/free-icons/paper" title="paper icons">Paper icons created by Freepik - Flaticon</a><br>
+- <a href="https://www.flaticon.com/free-icons/plastic" title="plastic icons">Plastic icons created by nawicon - Flaticon</a><br>
+- <a href="https://www.flaticon.com/free-icons/bottle" title="bottle icons">Bottle icons created by Freepik - Flaticon</a><br>
+- <a href="https://www.flaticon.com/free-icons/mask" title="mask icons">Mask icons created by Freepik - Flaticon</a>
