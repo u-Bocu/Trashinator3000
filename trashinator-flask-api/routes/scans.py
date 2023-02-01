@@ -199,6 +199,49 @@ def get_nb_scans_by_day():
     }
 
 
+# Get number of all scans by day or scans by day from last week by user
+@scans.route("/count/user", methods=['GET'])
+def get_nb_scans_by_day_by_user():
+    args = request.args
+    last_week = args.get("last_week", default=False, type=bool)
+    user_id = args.get("user_id", default='', type=int)
+
+    success = True
+    message = "Nombre de scans par jour récupéré avec succès"
+    count = 0
+    rows = []
+
+    try:
+        db = get_db()
+        cursor = db.cursor()
+
+        # Count all scans or scans from last week
+        if last_week:
+            sql_request = f'''SELECT strftime('%d', `timestamp`) day, strftime('%w', `timestamp`), count(*) FROM scan s
+                WHERE (date(s.timestamp) BETWEEN date(current_timestamp, '-6 days') AND 
+                date(current_timestamp)) AND s.user_id = '{user_id}' GROUP BY day; '''
+        else:
+            sql_request = f'''SELECT strftime('%d', `timestamp`) day, strftime('%w', `timestamp`), count(*) FROM scan s 
+                WHERE s.user_id = '{user_id}' GROUP BY day;'''
+
+        cursor.execute(sql_request)
+        rows = cursor.fetchall()
+        print(rows)
+        count = len(rows)
+    except:
+        success = False
+        message = "Erreur lors de la récupération du nombre de scans par jour"
+
+    return {
+        "success": success,
+        "message": message,
+        "data": {
+            'count': count,
+            'rows': rows
+        }
+    }
+
+
 # Get user's score
 @scans.route("/points", methods=['POST'])
 def post_points():

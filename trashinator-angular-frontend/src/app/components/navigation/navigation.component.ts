@@ -33,6 +33,9 @@ export class NavigationComponent {
     private router: Router,
     private eventService: EventService
     ) {
+    this.isLogged = this.localStorageService.isLogged();
+    this.username = this.localStorageService.getData('username');
+    this.getPoints();
     this.refresh();
   }
 
