@@ -79,7 +79,7 @@ export class NbScansChartComponent implements OnInit {
         containLabel: true
       },
       legend: {
-        data: ['Scans généraux', 'Vos Scans']
+        data: ['Scans généraux', 'Vos scans']
       },
       xAxis: {
         type: 'category',
