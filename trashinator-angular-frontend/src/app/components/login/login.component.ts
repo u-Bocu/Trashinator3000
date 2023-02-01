@@ -5,6 +5,7 @@ import {AuthService} from 'src/app/services/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {LocalStorageService} from "../../services/local-storage.service";
 import {Router} from "@angular/router";
+import {EventService} from "../../services/event.service";
 
 @Component({
   selector: 'app-login',
@@ -27,7 +28,8 @@ export class LoginComponent {
     private authService: AuthService,
     private toastr: ToastrService,
     private localStorageService: LocalStorageService,
-    private router: Router
+    private router: Router,
+    private eventService: EventService
   ) {
   }
 
@@ -48,8 +50,10 @@ export class LoginComponent {
             this.toastr.success('Bienvenue ' + this.form.value.username!, 'Succès', {
               positionClass: 'test'
             });
-            this.localStorageService.saveData(this.form.value.username!);
-            this.router.navigate(['/dashboard']).then(() => window.location.reload());
+            this.localStorageService.saveData('user_id', response.data[0]);
+            this.localStorageService.saveData('username', response.data[1]);
+            this.eventService.emitRefreshNavigationEvent();
+            this.router.navigate(['/dashboard']).then(r => r);
           }
         });
     }

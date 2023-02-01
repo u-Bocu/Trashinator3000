@@ -33,18 +33,16 @@ onSubmit(): void
       .subscribe(response => {
 
           this.isValid = response.success
-          if(this.isValid == false)
+          if(!this.isValid)
           {
             this.toastr.error(response.message, 'Erreur', {
               positionClass: 'test'
             });
-          }
-          else if(this.isValid == true)
-          {
+          } else {
             this.toastr.success(response.message, 'Succès', {
               positionClass: 'test'
             });
-            this.router.navigate(['/login']);
+            this.router.navigate(['/login']).then(r => r);
           }
       });
   }

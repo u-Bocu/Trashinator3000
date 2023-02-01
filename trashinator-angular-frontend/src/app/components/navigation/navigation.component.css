@@ -16,17 +16,22 @@
   z-index: 1;
 }
 
-.spacer
-{
-  flex : 1
+.spacer {
+  flex: 1
 }
 
-.avatar
-{
-  width: 50px;
+.icon {
+  margin: 0 10px 0 20px;
   cursor: pointer;
   display: flex;
   justify-content: center;
+  color: white;
+  transform: scale(2);
+}
+
+.menu-icon {
+  width: 35px;
+  vertical-align: -5px;
 }
 
 .points {

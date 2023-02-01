@@ -1,51 +1,47 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { environment } from "../environnement";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  rootURL = 'http://localhost:8080/api';
-  headers = new HttpHeaders()
-    .set('Content-Type', 'application/json')
-    .set('Access-Control-Allow-Origin', '*');
-
   constructor(private http: HttpClient) { }
 
   public signup(username : string, password : string, mailAddress : string) : Observable<any> {
     return this.http.post(
-      this.rootURL + '/auth/sign-up',
+      environment.API_URL + '/auth/sign-up',
       { username : username , password : password, mail_address : mailAddress},
-      {headers: this.headers}
+      {headers: environment.HEADERS}
     );
   }
 
   public login(username : string, password : string) : Observable<any>
   {
     return this.http.post(
-      this.rootURL + '/auth/login',
+      environment.API_URL + '/auth/login',
       { username : username, password : password},
-      {headers : this.headers}
+      {headers : environment.HEADERS}
     );
   }
 
   public forgotPassword(mailAddress : string) : Observable<any>
   {
     return this.http.post(
-      this.rootURL + '/auth/forgotpassword',
+      environment.API_URL + '/auth/forgotpassword',
       { mail_address : mailAddress },
-      {headers : this.headers}
+      {headers : environment.HEADERS}
     );
   }
 
   public resetPassword(token : string, password : string) : Observable<any>
 {
   return this.http.post(
-    this.rootURL + '/auth/resetpassword',
+    environment.API_URL + '/auth/resetpassword',
     { token : token, password : password },
-    {headers : this.headers}
+    {headers : environment.HEADERS}
   );
 }
 }
