@@ -40,8 +40,8 @@ Trashinator3000 aims to help people categorize trash and sensibilize them to rec
 # How to use it ?
 
 ## Quickstart
-- Download Node.js on https://nodejs.org/en/
-- Run npm install -g @angular/cli using Node.js with the windows CLI
+- Download Node.js on https://nodejs.org/en/<br>
+- Run npm install -g @angular/cli using Node.js with the windows CLI<br>
 - Run quickstart.bat<br>
 - Open [127.0.0.1:4200](127.0.0.1:4200)
 
