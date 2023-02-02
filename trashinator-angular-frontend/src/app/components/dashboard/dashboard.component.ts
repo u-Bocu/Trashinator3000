@@ -4,7 +4,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from "rxjs";
 import { Card } from "../../models/card.model";
 import { ScansService } from "../../services/scans.service";
-import { WorldBankService } from 'src/app/services/world-bank.service';
+import { LocalStorageService } from "../../services/local-storage.service";
+import { EventService } from "../../services/event.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -12,8 +13,14 @@ import { WorldBankService } from 'src/app/services/world-bank.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  isLogged: boolean = false;
   nbColonnes?: number = 5;
   cards?: Observable<Array<Card>>;
+  organicTotal: number = 0;
+  paperTotal: number = 0;
+  plasticTotal: number = 0;
+  glassMetalTotal: number = 0;
+  otherTotal: number = 0;
   organic: number = 0;
   paper: number = 0;
   plastic: number = 0;
@@ -23,7 +30,14 @@ export class DashboardComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private scansService: ScansService,
-  ) {}
+    private localStorageService: LocalStorageService,
+    private eventService: EventService
+  ) {
+    this.isLogged = this.localStorageService.isLogged();
+    this.eventService.getRefreshDashboardEvent().subscribe(() => {
+      this.isLogged = this.localStorageService.isLogged();
+    });
+  }
 
   ngOnInit() {
     /* Si l'écran est petit, passes les 'cards' de la taille standard vers une colonne */
@@ -59,17 +73,36 @@ export class DashboardComponent implements OnInit {
       response.data.rows.forEach((prediction: any[]) => {
         switch (prediction[0]) {
           case 'Organic':
-            this.organic = prediction[1]; break;
+            this.organicTotal = prediction[1]; break;
           case 'Paper':
-            this.paper = prediction[1]; break;
+            this.paperTotal = prediction[1]; break;
           case 'Plastic':
-            this.plastic = prediction[1]; break;
+            this.plasticTotal = prediction[1]; break;
           case 'G&M':
-            this.glassMetal = prediction[1]; break;
+            this.glassMetalTotal = prediction[1]; break;
           case 'Other':
-            this.other = prediction[1]; break;
+            this.otherTotal = prediction[1]; break;
         }
       });
     });
+
+    if (this.isLogged) {
+      this.scansService.getNbScansByPredictionByUser(parseInt(this.localStorageService.getData('user_id'))).subscribe(response => {
+        response.data.rows.forEach((prediction: any[]) => {
+          switch (prediction[0]) {
+            case 'Organic':
+              this.organic = prediction[1]; break;
+            case 'Paper':
+              this.paper = prediction[1]; break;
+            case 'Plastic':
+              this.plastic = prediction[1]; break;
+            case 'G&M':
+              this.glassMetal = prediction[1]; break;
+            case 'Other':
+              this.other = prediction[1]; break;
+          }
+        });
+      });
+    }
   }
 }

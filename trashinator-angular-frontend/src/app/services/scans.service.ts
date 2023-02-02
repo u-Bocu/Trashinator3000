@@ -32,9 +32,24 @@ export class ScansService {
     );
   }
 
+  public getNbScansByPredictionByUser(user_id?: number): Observable<any> {
+    return this.http.post(
+      environment.API_URL + '/scans/predictions/count',
+      { user_id },
+      { headers: environment.HEADERS }
+    );
+  }
+
   public getNbScansByDay(lastWeek: string = ''): Observable<any> {
     return this.http.get(
       environment.API_URL + '/scans/count?last_week=' + lastWeek,
+      { headers: environment.HEADERS }
+    );
+  }
+
+  public getNbScansByDayByUser(lastWeek: string = '', user_id: number): Observable<any> {
+    return this.http.get(
+      environment.API_URL + '/scans/count/user?last_week=' + lastWeek + '&user_id=' + user_id,
       { headers: environment.HEADERS }
     );
   }

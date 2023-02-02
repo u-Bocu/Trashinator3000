@@ -1,5 +1,6 @@
 <div class="grid-container">
-  <h1 class="mat-h1">Dashboard</h1>
+  <h1 class="mat-h1" *ngIf="!isLogged">Dashboard - Scans Totaux</h1>
+  <h1 class="mat-h1" *ngIf="isLogged">Dashboard - Mes Scans | Total</h1>
 
   <mat-grid-list [cols]="nbColonnes" rowHeight="200px">
     <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
@@ -18,8 +19,11 @@
               <mat-grid-tile class="card-content-stats" colspan="2">
                 <mat-icon>compost</mat-icon>
               </mat-grid-tile>
-              <mat-grid-tile class="card-content-stats" colspan="3">
-                {{organic | tons}}
+              <mat-grid-tile *ngIf="!isLogged" class="card-content-stats" colspan="3">
+                {{organicTotal | tons}}
+              </mat-grid-tile>
+              <mat-grid-tile *ngIf="isLogged" class="card-content-stats" colspan="3">
+                {{organic | tons}} <span class="total-fonce">&nbsp;| {{organicTotal | tons}}</span>
               </mat-grid-tile>
             </div>
 
@@ -27,8 +31,11 @@
               <mat-grid-tile class="card-content-stats" colspan="2">
                 <mat-icon>newspaper</mat-icon>
               </mat-grid-tile>
-              <mat-grid-tile class="card-content-stats" colspan="3">
-                {{paper | tons}}
+              <mat-grid-tile *ngIf="!isLogged" class="card-content-stats" colspan="3">
+                {{paperTotal | tons}}
+              </mat-grid-tile>
+              <mat-grid-tile *ngIf="isLogged" class="card-content-stats" colspan="3">
+                {{paper | tons}} <span class="total-fonce">&nbsp;| {{paperTotal | tons}}</span>
               </mat-grid-tile>
             </div>
 
@@ -36,8 +43,11 @@
               <mat-grid-tile class="card-content-stats" colspan="2">
                 <mat-icon>recycling</mat-icon>
               </mat-grid-tile>
-              <mat-grid-tile class="card-content-stats" colspan="3">
-                {{plastic | tons}}
+              <mat-grid-tile *ngIf="!isLogged" class="card-content-stats" colspan="3">
+                {{plasticTotal | tons}}
+              </mat-grid-tile>
+              <mat-grid-tile *ngIf="isLogged" class="card-content-stats" colspan="3">
+                {{plastic | tons}} <span class="total-fonce">&nbsp;| {{plasticTotal | tons}}</span>
               </mat-grid-tile>
             </div>
 
@@ -45,8 +55,11 @@
               <mat-grid-tile class="card-content-stats" colspan="2">
                 <mat-icon>science</mat-icon>
               </mat-grid-tile>
-              <mat-grid-tile class="card-content-stats" colspan="3">
-                {{glassMetal | tons}}
+              <mat-grid-tile *ngIf="!isLogged" class="card-content-stats" colspan="3">
+                {{glassMetalTotal | tons}}
+              </mat-grid-tile>
+              <mat-grid-tile *ngIf="isLogged" class="card-content-stats" colspan="3">
+                {{glassMetal | tons}} <span class="total-clair">&nbsp;| {{glassMetalTotal | tons}}</span>
               </mat-grid-tile>
             </div>
 
@@ -54,8 +67,11 @@
               <mat-grid-tile class="card-content-stats" colspan="2">
                 <mat-icon>delete</mat-icon>
               </mat-grid-tile>
-              <mat-grid-tile class="card-content-stats" colspan="3">
-                {{other | tons}}
+              <mat-grid-tile *ngIf="!isLogged" class="card-content-stats" colspan="3">
+                {{otherTotal | tons}}
+              </mat-grid-tile>
+              <mat-grid-tile *ngIf="isLogged" class="card-content-stats" colspan="3">
+                {{other | tons}} <span class="total-clair">&nbsp;| {{otherTotal | tons}}</span>
               </mat-grid-tile>
             </div>
           </mat-grid-list>
