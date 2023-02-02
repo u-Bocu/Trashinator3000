@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS scan (
 
 -- Add some dummy users
 INSERT INTO user (username, password)
-VALUES ("dfh", "azerty"),
+VALUES ("Jojo", "azerty"),
         ("jujututu", "tutupigeon"),
         ("matt_le_boss", "uydfgre"),
         ("issa_de_qista", "kjhgf");
@@ -37,9 +37,9 @@ VALUES (1, "toto.png", date(current_timestamp, '-8 days'), 80, "organic"),
         (NULL, "tutu.png", date(current_timestamp, '-7 days'), 92, "paper"),
         (2, "pigeon.png", date(current_timestamp, '-6 days'), 72, "plastic"),
         (3, "example.png", date(current_timestamp, '-3 days'), 84, "paper"),
-        (4, "azert.png", date(current_timestamp, '-4 days'), 75, "organic"),
-        (1, "jhgf.png", date(current_timestamp, '-4 days'), 78, "other"),
+        (4, "orange.png", date(current_timestamp, '-4 days'), 75, "organic"),
+        (1, "groudon.png", date(current_timestamp, '-4 days'), 78, "other"),
         (4, "pomme.png", date(current_timestamp, '-5 days'), 78, "organic"),
         (NULL, "scrap_metal.png", date(current_timestamp), 78, "g&m"),
-        (NULL, "jhgf.png", date(current_timestamp), 78, "other"),
-        (4, "jhgf.png", date(current_timestamp, '-2 days'), 78, "other");
+        (NULL, "mask.png", date(current_timestamp), 78, "other"),
+        (4, "monkey.png", date(current_timestamp, '-2 days'), 78, "other");
