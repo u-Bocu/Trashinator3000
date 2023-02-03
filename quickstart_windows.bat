@@ -1,0 +1,2 @@
+start /min cmd /c "cd trashinator-angular-frontend && npm install -g npm && npm install -g @angular/cli && npm install && ng serve"
+start /min cmd /c "cd trashinator-flask-api && pip install tensorflow && pip install keras && pip install Pillow && pip install scikit-learn && pip install flask && python app.py"
