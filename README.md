@@ -40,7 +40,12 @@ Trashinator3000 aims to help people categorize trash and sensibilize them to rec
 # How to use it ?
 
 ## Quickstart
-- Run quickstart.bat<br>
+- Download [this archive](https://l.messenger.com/l.php?u=https%3A%2F%2Fdrive.google.com%2Ffile%2Fd%2F1wamwLZsclQYYsx5dLThTqZG5sJSLR7oS%2Fview&h=AT1V8Iyj0RLJ0c1_yaQ-B8hV09QJppZuanGbhEk7TNY-pD06cHXlLj6xRQFvl_xHpJbw-piHSezLSCkiMnJLoj2DmGtJG8TuE08wiFqJivPn4GD-dLH9YtBNjgQUIjM1j3CFGg)<br>
+- Inzip it in the Trashinator3000\trashinator-flask-api folder.<br>
+- If you are on Windows: run quickstart.bat.<br>
+- Otherwise install the dependancies specified below.<br>
+- In the Trashinator3000\trashinator-angular-frontend folder: run "ng serve"<br>
+- In the Trashinator3000\trashinator-flask-api folder: run app.py.<br>
 - Open [127.0.0.1:4200](127.0.0.1:4200)<br>
 
 ## Scan trash
